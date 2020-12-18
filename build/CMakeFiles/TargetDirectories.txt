@@ -1,0 +1,10 @@
+/home/theo/IMAC2/GAME_IMAC2/build/CMakeFiles/rebuild_cache.dir
+/home/theo/IMAC2/GAME_IMAC2/build/CMakeFiles/edit_cache.dir
+/home/theo/IMAC2/GAME_IMAC2/build/third-party/CMakeFiles/rebuild_cache.dir
+/home/theo/IMAC2/GAME_IMAC2/build/third-party/CMakeFiles/edit_cache.dir
+/home/theo/IMAC2/GAME_IMAC2/build/third-party/glimac/CMakeFiles/rebuild_cache.dir
+/home/theo/IMAC2/GAME_IMAC2/build/third-party/glimac/CMakeFiles/edit_cache.dir
+/home/theo/IMAC2/GAME_IMAC2/build/third-party/glimac/CMakeFiles/glimac.dir
+/home/theo/IMAC2/GAME_IMAC2/build/template/CMakeFiles/rebuild_cache.dir
+/home/theo/IMAC2/GAME_IMAC2/build/template/CMakeFiles/edit_cache.dir
+/home/theo/IMAC2/GAME_IMAC2/build/template/CMakeFiles/play.dir
