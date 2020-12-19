@@ -13,7 +13,7 @@ using namespace std;
 
 
 // Définition du constructeur
-Model::Model(const GLchar *path){this->loadModel(path)};
+Model::Model(const GLchar *path){this->loadModel(path);};
 
 void Model::Draw(mShader shader){
     for(GLuint i=0; i < this->meshes.size(); i++){
@@ -51,7 +51,7 @@ void Model::processNode(aiNode *node, const aiScene *scene){
     }
 };
 
-Mesh Model::processMesh(aiNode *mesh, const aiScene *scene){
+Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene){
     vector<Vertex> vertices;
     vector<GLuint> indices;
     vector<Texture> textures;
@@ -123,19 +123,19 @@ vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type,
 
         for(GLuint j = 0; j<texture_loaded.size(); j++){
             if(texture_loaded[j].path == str){
-                textures.push_back(textures_loaded[j]);
+                textures.push_back(texture_loaded[j]);
                 skip = true;
             }
         }
         //Si la texture n'a pas encore été chargée, on la charge
         if(!skip){
             Texture texture;
-            texture.id = TextureFromFile( str.C_str(), this->directory);
+            texture.id = TextureFromFile( str.C_Str(), this->directory);
             texture.type = typeName;
             texture.path = str;
             textures.push_back(texture);
 
-            this->textures_loaded.push_back(texture);
+            this->texture_loaded.push_back(texture);
         }
     }
     return textures;
@@ -151,7 +151,7 @@ GLint TextureFromFile(const char *path, string directory){
 
     glBindTexture(GL_TEXTURE_2D, textureID);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->getWidth(), image->getHeight(), 0, GL_RGBA, GL_FLOAT, image->getPixels());
-    glGenerateMipMap(GL_TEXTURE_2D);
+    glGenerateMipmap(GL_TEXTURE_2D);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

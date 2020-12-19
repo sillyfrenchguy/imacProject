@@ -1,0 +1,7 @@
+{
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/project/third-party/glimac/include",
+        "${workspaceFolder}/project/third-party/glm", 
+        "${workspaceFolder}/project/template/include"
+    ]
+}

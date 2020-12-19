@@ -4,7 +4,7 @@ file(GLOB_RECURSE SRC_FILES *.cpp *.hpp)
 
 
 set(EXECUTABLE "play")
-add_executable(${EXECUTABLE} ${SRC_FILE} main.cpp)
+add_executable(${EXECUTABLE} ${SRC_FILES} main.cpp)
 target_link_libraries(${EXECUTABLE} ${ALL_LIBRARIES})
 
 
