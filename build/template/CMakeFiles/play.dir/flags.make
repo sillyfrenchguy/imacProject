@@ -6,5 +6,5 @@ CXX_FLAGS =   -std=c++11
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/usr/include/SDL -I/home/theo/IMAC2/GAME_IMAC2/project/third-party/glimac/include -I/home/theo/IMAC2/GAME_IMAC2/project/third-party/glm -I/home/theo/IMAC2/GAME_IMAC2/project/template/include 
+CXX_INCLUDES = -I/usr/include/SDL -I/home/theo/IMAC2/imacProject/project/third-party/glimac/include -I/home/theo/IMAC2/imacProject/project/third-party/glm -I/home/theo/IMAC2/imacProject/project/third-party/assimp -I/home/theo/IMAC2/imacProject/project/template/include 
 

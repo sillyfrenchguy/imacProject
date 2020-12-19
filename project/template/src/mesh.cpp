@@ -11,7 +11,7 @@ Mesh::Mesh(vector<Vertex> vertices, vector<GLuint> indices, vector<Texture> text
     this->SetupMesh();
 };
 
-void Mesh::Draw(Shader shader){
+void Mesh::Draw(mShader shader){
     GLuint diffuseNr = 1;
     GLuint specularNr = 1;
 

@@ -1,4 +1,4 @@
-# Install script for directory: /home/theo/IMAC2/GAME_IMAC2/project
+# Install script for directory: /home/theo/IMAC2/imacProject/project
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,8 +39,8 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/theo/IMAC2/GAME_IMAC2/build/third-party/cmake_install.cmake")
-  include("/home/theo/IMAC2/GAME_IMAC2/build/template/cmake_install.cmake")
+  include("/home/theo/IMAC2/imacProject/build/third-party/cmake_install.cmake")
+  include("/home/theo/IMAC2/imacProject/build/template/cmake_install.cmake")
 
 endif()
 
@@ -52,5 +52,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/theo/IMAC2/GAME_IMAC2/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/theo/IMAC2/imacProject/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

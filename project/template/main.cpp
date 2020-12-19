@@ -2,13 +2,15 @@
 #include <glimac/SDLWindowManager.hpp>
 #include <GL/glew.h>
 #include <glimac/common.hpp>
-#include <glimac/FreeflyCamera.hpp>
-#include <glimac/Sphere.hpp>
+
 #include <glimac/Program.hpp>
 #include <glimac/FilePath.hpp>
+#include "shader.hpp"
+#include "freeFlyCamera.hpp"
+#include "model.hpp"
+
 #include <glimac/glm.hpp>
 #include <glimac/Image.hpp>
-//#include <mesh.hpp>
 #include <iostream>
 
 
@@ -36,22 +38,9 @@ int main(int argc, char** argv) {
      *********************************/
     
     // On charge les shaders
-    FilePath applicationPath(argv[0]);
-    Program program = loadProgram(
-        applicationPath.dirPath() + "shaders/3D.vs.glsl",
-        applicationPath.dirPath() + "shaders/directionallights.fs.glsl"
-    );
-    program.use();
-
-    GLint uMVPMatrix = glGetUniformLocation(program.getGLId(), "uMVPMatrix");
-    GLint uMVMatrix = glGetUniformLocation(program.getGLId(), "uMVMatrix");
-    GLint uNormalMatrix = glGetUniformLocation(program.getGLId(), "uNormalMatrix");
-
-    GLint uKd = glGetUniformLocation(program.getGLId(), "uKd");
-    GLint uKs = glGetUniformLocation(program.getGLId(), "uKs");
-    GLint uShininess = glGetUniformLocation(program.getGLId(), "uShininess");
-    GLint uLightDir_vs = glGetUniformLocation(program.getGLId(), "uLightDir_vs");
-    GLint uLightIntensity = glGetUniformLocation(program.getGLId(), "uLightIntensity");
+    mShader shader("shaders/modelLoading.vs.glsl", "shaders/modelLoading.fs.glsl");
+    
+    Model ourModel("./assets/models/nanosuit.obj");
 
 
     // On crée une caméra de type Freefly
@@ -59,45 +48,6 @@ int main(int argc, char** argv) {
 
     glEnable(GL_DEPTH_TEST);
 
-
-    // On crée le VBO
-    GLuint vbo;
-    glGenBuffers(1, &vbo);
-
-    // On le bind
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0); // on débind le VBO
-
-    // On crée le VAO
-    GLuint vao;
-    glGenVertexArrays(1, &vao);
-
-    // On bind le VAO
-    glBindVertexArray(vao);
-
-    const GLuint VERTEX_ATTR_POSITION = 0;
-    glEnableVertexAttribArray(VERTEX_ATTR_POSITION); //le 0 correspond à l'attribut de position
-
-    const GLuint VERTEX_ATTR_NORMAL = 1;
-    glEnableVertexAttribArray(VERTEX_ATTR_NORMAL); //le 1 correspond à l'attribut de normale
-
-    //const GLuint VERTEX_ATTR_TEXCOORDS = 2;
-    //glEnableVertexAttribArray(VERTEX_ATTR_TEXCOORDS); //le 1 correspond à l'attribut de texture
-
-    // On bind le VBO sur la cible
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-    // On indique le format de l'attribut de sommet position
-    glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)offsetof(ShapeVertex, position));
-    glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)offsetof(ShapeVertex, normal));
-    //glVertexAttribPointer(VERTEX_ATTR_TEXCOORDS, 2, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)offsetof(ShapeVertex, texCoords));
-    
-    // On débind le VBO
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    // On débind le VAO de la cible
-    glBindVertexArray(0);
 
 
     /*********************************
@@ -121,6 +71,44 @@ int main(int argc, char** argv) {
          * HERE SHOULD COME THE RENDERING CODE
          *********************************/
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        if(windowManager.isKeyPressed(SDLK_s)){
+            newCamera.moveFront(-0.1);
+        }
+        if(windowManager.isKeyPressed(SDLK_z)){
+            newCamera.moveFront(0.1);
+        }
+        if(windowManager.isKeyPressed(SDLK_q)){
+            newCamera.moveLeft(0.1);
+        }
+        if(windowManager.isKeyPressed(SDLK_d)){
+            newCamera.moveLeft(-0.1);
+        }
+
+        glm::ivec2 mousePosition = glm::ivec2(0.0);
+        if(windowManager.isMouseButtonPressed(SDL_BUTTON_LEFT)){
+            mousePosition = windowManager.getMousePosition();
+            float mousePositionX = mousePosition.x/800.0f - 0.5;
+            float mousePositionY = mousePosition.y/600.0f - 0.5;
+            
+            newCamera.rotateLeft(-3*mousePositionX);
+            newCamera.rotateUp(-3*mousePositionY);
+        }
+
+        glm::mat4 projection = glm::perspective(glm::radians(70.f), 800.f/600.f, 0.1f, 100.f);
+       
+        glm::mat4 view = newCamera.getViewMatrix();
+        
+        glUniformMatrix4fv(glGetUniformLocation(shader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+        glUniformMatrix4fv(glGetUniformLocation(shader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
+
+        glm::mat4 model;
+        model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); 
+        model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f)); 
+        glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+        ourModel.Draw(shader);
+
+        
         
 
         // Update the display

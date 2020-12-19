@@ -1,4 +1,4 @@
-# Install script for directory: /home/theo/IMAC2/GAME_IMAC2/project/third-party/glimac
+# Install script for directory: /home/theo/IMAC2/imacProject/project/third-party/glimac
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

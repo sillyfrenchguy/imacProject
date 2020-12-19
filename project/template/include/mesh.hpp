@@ -34,9 +34,9 @@ class Mesh{
         Mesh(vector<Vertex> vertices, vector<GLuint> indices, vector<Texture> textures);
 
         //Destructeur
-        ~Mesh();
+        //~Mesh();
 
-        void Draw(Shader shader);
+        void Draw(mShader shader);
 
     private:
         GLuint VAO, VBO, EBO;

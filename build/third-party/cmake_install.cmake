@@ -1,4 +1,4 @@
-# Install script for directory: /home/theo/IMAC2/GAME_IMAC2/project/third-party
+# Install script for directory: /home/theo/IMAC2/imacProject/project/third-party
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/theo/IMAC2/GAME_IMAC2/build/third-party/glimac/cmake_install.cmake")
+  include("/home/theo/IMAC2/imacProject/build/third-party/glimac/cmake_install.cmake")
 
 endif()
 

@@ -1,8 +1,6 @@
 include_directories(include/)
 
-file(GLOB HEADER_FILES *.hpp)
-file(GLOB SRC_FILES *.cpp)
-file(GLOB_RECURSE SHADER_FILES *.glsl)
+file(GLOB_RECURSE SRC_FILES *.cpp *.hpp)
 
 
 set(EXECUTABLE "play")

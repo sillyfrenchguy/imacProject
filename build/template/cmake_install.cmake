@@ -1,4 +1,4 @@
-# Install script for directory: /home/theo/IMAC2/GAME_IMAC2/project/template
+# Install script for directory: /home/theo/IMAC2/imacProject/project/template
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

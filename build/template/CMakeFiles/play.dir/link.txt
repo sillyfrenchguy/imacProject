@@ -1,1 +1,1 @@
-/usr/bin/c++    -rdynamic CMakeFiles/play.dir/main.cpp.o  -o play  ../third-party/glimac/libglimac.a -Wl,-Bstatic -lSDLmain -Wl,-Bdynamic -lSDL -lpthread /usr/lib/x86_64-linux-gnu/libGL.so.1 -lGLEW 
+/usr/bin/c++    -rdynamic CMakeFiles/play.dir/main.cpp.o  -o play  ../third-party/glimac/libglimac.a -Wl,-Bstatic -lSDLmain -Wl,-Bdynamic -lSDL -lpthread /usr/lib/x86_64-linux-gnu/libGL.so.1 -lGLEW -lassimp 
