@@ -10,6 +10,8 @@
 #include "model.hpp"
 
 #include <glimac/glm.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <glimac/Image.hpp>
 #include <iostream>
 
@@ -38,9 +40,9 @@ int main(int argc, char** argv) {
      *********************************/
     
     // On charge les shaders
-    mShader shader("shaders/modelLoading.vs.glsl", "shaders/modelLoading.fs.glsl");
+    mShader shader = mShader("./template/shaders/modelLoading.vs.glsl", "./template/shaders/modelLoading.fs.glsl");
     
-    Model ourModel("./assets/models/nanosuit.obj");
+    Model ourModel = Model("./assets/models/nanosuit.obj");
 
 
     // On crée une caméra de type Freefly

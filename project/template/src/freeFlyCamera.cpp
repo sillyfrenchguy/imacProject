@@ -2,7 +2,7 @@
 #include <vector>
 #include <iostream>
 #include "glimac/common.hpp"
-#include "freeflyCamera.hpp"
+#include "freeFlyCamera.hpp"
 
 namespace glimac {
     // constructeur par défaut

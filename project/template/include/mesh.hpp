@@ -9,7 +9,7 @@
 #include <GL/glew.h>
 #include "shader.hpp"
 #include "../../third-party/assimp/include/assimp/types.h"
-#include <glm/glm.hpp>
+#include <glimac/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 using namespace std;
