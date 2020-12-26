@@ -58,7 +58,7 @@ namespace glimac {
 
 		shader = new ::Shader( "../project/template/shaders/modelLoading.vs", "../project/template/shaders/modelLoading.frag" );
 
-		ourModel = new Model("../project/template/models/R2-Unit.obj");
+		ourModel = new Model("../project/template/models/nanosuit.obj");
 
         /*********************************
 		 * HERE SHOULD COME THE INITIALIZATION CODE
@@ -176,7 +176,7 @@ namespace glimac {
 
 }
 
-
+/*
 GLint TextureFromFile( const char *path, string directory )
 {
     //Generate texture ID and load texture data
@@ -200,7 +200,8 @@ GLint TextureFromFile( const char *path, string directory )
 
     // Assign texture to ID
     glBindTexture( GL_TEXTURE_2D, textureID );
-    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, image->getWidth(), image->getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, image->getPixels());
+    //glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, image->getWidth(), image->getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, image->getPixels());
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, image->getWidth(), image->getHeight(), 0, GL_RGBA, GL_FLOAT, image->getPixels());
     glGenerateMipmap( GL_TEXTURE_2D );
 
     // Parameters
@@ -213,3 +214,4 @@ GLint TextureFromFile( const char *path, string directory )
 
     return textureID;
 }
+*/
