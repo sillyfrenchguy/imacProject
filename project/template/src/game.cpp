@@ -58,7 +58,7 @@ namespace glimac {
 
 		shader = new ::Shader( "../project/template/shaders/modelLoading.vs", "../project/template/shaders/modelLoading.frag" );
 
-		ourModel = new Model("../project/template/models/nanosuit.obj");
+		ourModel = new Model("../project/template/models/R2-Unit.obj");
 
         /*********************************
 		 * HERE SHOULD COME THE INITIALIZATION CODE
@@ -129,7 +129,9 @@ namespace glimac {
 
         m_ProjMatrix = glm::perspective(glm::radians(70.f), 800.f/600.f, 0.1f, 100.f);
         m_cameraViewMatrix = m_camera.getViewMatrix();
-        m_earthMVMatrix = glm::rotate(m_cameraViewMatrix, m_window.getTime(), glm::vec3(0.0, 1.0, 0.0));
+        //m_earthMVMatrix = glm::rotate(m_cameraViewMatrix, m_window.getTime(), glm::vec3(0.0, 1.0, 0.0));
+        m_earthMVMatrix = glm::scale(m_cameraViewMatrix, glm::vec3(0.2, 0.2, 0.2));
+
 
         glUniform3f(m_uKd, 0.5, 0.5, 0.5);
         glUniform3f(m_uKs, 0.5, 0.0, 0.0);
@@ -183,19 +185,23 @@ GLint TextureFromFile( const char *path, string directory )
     GLuint textureID;
     glGenTextures( 1, &textureID );
 
-    int width, height;
+    //int width, height;
 
     // unsigned char *image = SOIL_load_image( filename.c_str( ), &width, &height, 0, SOIL_LOAD_RGB );
-	std::cout << "load texture " << filename << std::endl;
+	//std::cout << "load texture " << filename << std::endl;
+    //unique_ptr<glimac::Image> image = glimac::loadImage(filename.c_str());
+    
 	auto image = glimac::ImageManager::loadImage(filename.c_str( ));
+    std::cout << "Pixels" << image->getPixels() << std::endl;
+    
 	if (!image) {
 		std::cout << "failed to load texture " << filename << std::endl;
 	}
 
     // Assign texture to ID
     glBindTexture( GL_TEXTURE_2D, textureID );
-    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image->getPixels() );
-    // glGenerateMipmap( GL_TEXTURE_2D );
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, image->getWidth(), image->getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, image->getPixels());
+    glGenerateMipmap( GL_TEXTURE_2D );
 
     // Parameters
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );

@@ -173,7 +173,7 @@ private:
     vector<Texture> loadMaterialTextures( aiMaterial *mat, aiTextureType type, string typeName )
     {
         vector<Texture> textures;
-
+        
         for ( GLuint i = 0; i < mat->GetTextureCount( type ); i++ )
         {
             aiString str;
@@ -188,7 +188,7 @@ private:
                 {
                     textures.push_back( textures_loaded[j] );
                     skip = true; // A texture with the same filepath has already been loaded, continue to next one. (optimization)
-
+                    
                     break;
                 }
             }
@@ -200,7 +200,7 @@ private:
                 texture.type = typeName;
                 texture.path = str;
                 textures.push_back( texture );
-
+                
                 this->textures_loaded.push_back( texture );  // Store it as texture loaded for entire model, to ensure we won't unnecesery load duplicate textures.
             }
         }
