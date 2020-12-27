@@ -16,7 +16,7 @@
 #include <assimp/postprocess.h>
 
 #include "../../third-party/glimac/include/glimac/Image.hpp"
-
+//#include "../../third-party/SOIL2/SOIL2.h"
 #include "Mesh.h"
 
 using namespace std;

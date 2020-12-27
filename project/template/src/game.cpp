@@ -58,14 +58,15 @@ namespace glimac {
 
 		shader = new ::Shader( "../project/template/shaders/modelLoading.vs", "../project/template/shaders/modelLoading.frag" );
 
-		ourModel = new Model("../project/template/models/nanosuit.obj");
+		//ourModel = new Model("../project/template/models/nanosuit.obj");
+        ourModel2 = new Model("../project/template/models/testOBJ.obj");
 
         /*********************************
 		 * HERE SHOULD COME THE INITIALIZATION CODE
 		 *********************************/
 
 		// On charge les shaders
-
+        
 		Program program = loadProgram(
 			m_applicationPath.dirPath() + "shaders/3D.vs.glsl",
 			m_applicationPath.dirPath() + "shaders/directionallights.fs.glsl"
@@ -75,7 +76,7 @@ namespace glimac {
 		m_uMVPMatrix = glGetUniformLocation(program.getGLId(), "uMVPMatrix");
 		m_uMVMatrix = glGetUniformLocation(program.getGLId(), "uMVMatrix");
 		m_uNormalMatrix = glGetUniformLocation(program.getGLId(), "uNormalMatrix");
-
+    
 		m_uKd = glGetUniformLocation(program.getGLId(), "uKd");
 		m_uKs = glGetUniformLocation(program.getGLId(), "uKs");
 		m_uShininess = glGetUniformLocation(program.getGLId(), "uShininess");
@@ -121,15 +122,16 @@ namespace glimac {
 
     //draw RENDERING
     void Game::draw(){
-
+        glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glBindVertexArray(vao);
 
+        glBindVertexArray(vao);
+        //shader->Use();
         m_camera.move();
 
         m_ProjMatrix = glm::perspective(glm::radians(70.f), 800.f/600.f, 0.1f, 100.f);
         m_cameraViewMatrix = m_camera.getViewMatrix();
-        //m_earthMVMatrix = glm::rotate(m_cameraViewMatrix, m_window.getTime(), glm::vec3(0.0, 1.0, 0.0));
+        m_earthMVMatrix = glm::rotate(m_cameraViewMatrix, m_window.getTime(), glm::vec3(0.0, 1.0, 0.0));
         m_earthMVMatrix = glm::scale(m_cameraViewMatrix, glm::vec3(0.2, 0.2, 0.2));
 
 
@@ -146,7 +148,8 @@ namespace glimac {
 
 
         // glDrawArrays(GL_TRIANGLES, 0, m_sphere.getVertexCount());
-		ourModel->Draw(*shader);
+		//ourModel->Draw(*shader);
+        ourModel2->Draw(*shader);
 
 		/*
         for(int i = 0; i <32; i++){

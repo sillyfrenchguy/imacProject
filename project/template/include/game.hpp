@@ -38,6 +38,7 @@ class Game{
         std::vector<glm::vec3> m_randTranslation;
 
         Model* ourModel;
+        Model* ourModel2;
 		::Shader* shader;
 
     public:

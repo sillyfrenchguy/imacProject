@@ -2,6 +2,7 @@
 #include "Mesh.h"
 //#include <glimac/Image.hpp>
 
+
 using namespace std;
 
 // Définition du constructeur
@@ -141,7 +142,12 @@ GLint Model::TextureFromFile(const char *path, string directory){
     glGenTextures(1, &textureID);
     auto image = glimac::ImageManager::loadImage(filename.c_str( ));
 
+    //int width, height;
+    //unsigned char *image = SOIL_load_image(filename.c_str(), &width, &height, 0, SOIL_LOAD_RGB);
+
     glBindTexture(GL_TEXTURE_2D, textureID);
+    //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->getWidth(), image->getHeight(), 0, GL_RGBA, GL_FLOAT, image->getPixels());
     glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -151,5 +157,6 @@ GLint Model::TextureFromFile(const char *path, string directory){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, 0);
     std::cout << "texture ID " << textureID << std::endl;
+    //SOIL_free_image_data(image);
     return textureID;
 };
