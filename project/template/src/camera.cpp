@@ -9,7 +9,7 @@
 namespace glimac {
     // constructeur par défaut
     Camera::Camera(Game& game)
-    :game(game), m_Position((0.f,0.f,0.f)), m_fPhi(M_PI), m_fTheta(0.f){computeDirectionVectors();};
+    :game(game), m_Position((0.f,0.f,15.f)), m_fPhi(M_PI / 0.8), m_fTheta(-M_PI / 8) { computeDirectionVectors();};
 
     //constructeur
     Camera::Camera(Game& game, const glm::vec3 Position, const float fPhi, const float fTheta)
@@ -31,35 +31,37 @@ namespace glimac {
     void Camera::moveLeft(float t){
             m_Position += t*m_LeftVector;
             computeDirectionVectors();
-    };
+    }
     void Camera::moveFront(float t){
             m_Position += t*m_FrontVector;
             computeDirectionVectors();
-    };
+    }
     void Camera::rotateLeft(float m_degrees){
             m_fPhi += glm::radians(m_degrees);
             computeDirectionVectors();
-        };
+        }
     void Camera::rotateUp(float m_degrees){
         m_fTheta += glm::radians(m_degrees);
         computeDirectionVectors();
-        };
+        }
 
 
     void Camera::move(){
 
+		float speed = 0.5;
+
         //Déplacement avec le clavier
         if(game.getWindow().isKeyPressed(SDLK_s)){
-            moveFront(-0.1);
+            moveFront(-speed);
         }
         if(game.getWindow().isKeyPressed(SDLK_z)){
-            moveFront(0.1);
+            moveFront(speed);
         }
         if(game.getWindow().isKeyPressed(SDLK_q)){
-            moveLeft(0.1);
+            moveLeft(speed);
         }
         if(game.getWindow().isKeyPressed(SDLK_d)){
-            moveLeft(-0.1);
+            moveLeft(-speed);
         }
 
         //Déplacement avec la souris

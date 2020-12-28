@@ -6,6 +6,11 @@ project(ImacGAME)
 
 add_definitions(-std=c++11)
 
+add_compile_options(
+  "-Wall" "-Wpedantic" "-Wextra" "-fexceptions"
+  "$<$<CONFIG:DEBUG>:-O0;-g3;-ggdb>"
+)
+
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 
 find_package(SDL REQUIRED)

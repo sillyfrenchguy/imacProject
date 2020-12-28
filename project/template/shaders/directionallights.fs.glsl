@@ -3,8 +3,11 @@ precision mediump float;
 
 in vec3 vPosition_vs;
 in vec3 vNormal_vs;
+in vec2 TexCoords;
 
-out vec3 fFragColor;
+uniform sampler2D texture_diffuse;
+
+out vec4 fFragColor;
 uniform vec3 uKd;
 uniform vec3 uKs;
 uniform float uShininess;
@@ -19,5 +22,5 @@ vec3 blinnPhong(vec3 position_vs, vec3 normal_vs){
 };
 
 void main() {
-  fFragColor = blinnPhong(vPosition_vs, normalize(vNormal_vs));
+	fFragColor = vec4( blinnPhong(vPosition_vs, normalize(vNormal_vs)) * texture(texture_diffuse, TexCoords).rgb, 1 );
 };

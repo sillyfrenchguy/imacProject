@@ -37,9 +37,10 @@ class Game{
         std::vector<glm::vec3> m_randAxe;
         std::vector<glm::vec3> m_randTranslation;
 
-        Model* ourModel;
-        Model* ourModel2;
-		::Shader* shader;
+        Model* model1;
+        Model* model2;
+        Model* model3;
+		Program* program;
 
     public:
         //Constructeur
@@ -57,15 +58,9 @@ class Game{
 
         //draw RENDERING
         void draw();
-
-
-
-
-
-
 };
 
-};
+}
 
 
 

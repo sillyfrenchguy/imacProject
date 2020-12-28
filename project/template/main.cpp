@@ -14,7 +14,7 @@
 using namespace glimac;
 
 
-int main(int argc, char** argv) {
+int main(int, char** argv) {
 
     Game game(argv);
 
