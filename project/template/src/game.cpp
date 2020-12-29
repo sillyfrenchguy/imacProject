@@ -46,7 +46,7 @@ namespace glimac {
 
     void Game::init(){
 
-		model1 = new Model("../project/template/models/nanosuit.obj");
+		model1 = new Model("../project/template/models/testOBJ.obj");
 		model2 = new Model("../project/template/models/iPhone5/iPhone5.obj");
 		model3 = new Model("../project/template/models/sdcard/SD_Card.obj");
 
@@ -82,7 +82,8 @@ namespace glimac {
 
         m_ProjMatrix = glm::perspective(glm::radians(70.f), 800.f/600.f, 0.1f, 2000.f);
         m_cameraViewMatrix = m_camera.getViewMatrix();
-		m_earthMVMatrix = glm::rotate(m_cameraViewMatrix, m_window.getTime(), glm::vec3(0.0, 1.0, 0.0));
+		//m_earthMVMatrix = glm::rotate(m_cameraViewMatrix, m_window.getTime(), glm::vec3(0.0, 1.0, 0.0));
+        m_earthMVMatrix = m_camera.getViewMatrix();
 
         glUniform3f(m_uKd, 1.0, 1.0, 1.0);
         glUniform3f(m_uKs, 1.0, 1.0, 1.0);
