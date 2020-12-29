@@ -12,8 +12,9 @@ namespace glimac {
     /*constructeur*/
     Game::Game(char** argv) :
     // On créé une camera
-    m_camera(*this),
+    //m_camera(*this),
     // Initialize SDL and open a window
+    m_scene(),
     m_window(1000, 800, "ImacGAME"),
     m_applicationPath(argv[0])
     {}
@@ -45,7 +46,9 @@ namespace glimac {
     }
 
     void Game::init(){
-
+        this->m_scene= new Scene("../project/template/scenes/sceneTest.txt");
+        
+        /*
 		model1 = new Model("../project/template/models/testOBJ.obj");
 		model2 = new Model("../project/template/models/iPhone5/iPhone5.obj");
 		model3 = new Model("../project/template/models/sdcard/SD_Card.obj");
@@ -67,7 +70,7 @@ namespace glimac {
 		m_uLightDir_vs = glGetUniformLocation(program.getGLId(), "uLightDir_vs");
 		m_uLightIntensity = glGetUniformLocation(program.getGLId(), "uLightIntensity");
 
-		this->program = new Program(std::move(program));
+		this->program = new Program(std::move(program));*/
 
 		glEnable(GL_DEPTH_TEST);
     }
@@ -77,7 +80,8 @@ namespace glimac {
 
         glClearColor( 0.1f, 0.1f, 0.1f, 1.0f );
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
+        this->m_scene->drawScene();
+        /*
         m_camera.move();
 
         m_ProjMatrix = glm::perspective(glm::radians(70.f), 800.f/600.f, 0.1f, 2000.f);
@@ -115,7 +119,7 @@ namespace glimac {
         glUniformMatrix4fv(m_uMVPMatrix, 1, GL_FALSE, glm::value_ptr(m_ProjMatrix * sdcardMatrix));
 
 		model3->Draw(program);
-
+        */
         m_window.swapBuffers();
     }
 }

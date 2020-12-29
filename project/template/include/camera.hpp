@@ -1,13 +1,10 @@
 #pragma once
 #include "glimac/common.hpp"
 
-
 namespace glimac {
-class Game; 
 
 class Camera{
     private:
-        Game& game; 
         glm::vec3 m_Position;
         float m_fPhi;
         float m_fTheta;
@@ -21,8 +18,8 @@ class Camera{
 
     public:
         //Constructeur
-        Camera(Game&);
-        Camera(Game&, const glm::vec3 Position, const float fPhi, const float fTheta);
+        Camera();
+        Camera( const glm::vec3 Position, const float fPhi, const float fTheta);
 
         //destructeur
         ~Camera();
@@ -32,7 +29,7 @@ class Camera{
         void rotateLeft(float m_degrees); 
         void rotateUp(float m_degrees);
         glm::mat4 getViewMatrix() const;
-        void move(); 
+        //void move(); 
 };
 
 };

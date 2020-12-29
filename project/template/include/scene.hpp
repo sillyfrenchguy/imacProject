@@ -1,17 +1,36 @@
-#pragma once
+#include <glimac/SDLWindowManager.hpp>
+#include <GL/glew.h>
+#include <glimac/FilePath.hpp>
 #include "glimac/common.hpp"
+#include "glimac/Program.hpp"
+#include "camera.hpp"
 #include "Model.h"
-
-namespace glimac {
 
 class Scene{
     private:
-    map<string, Model> models;
+        glimac::Camera m_camera;
+        map<string, Model> models;
+
+        glm::mat4 m_ProjMatrix;
+        glm::mat4 m_cameraViewMatrix;
+        glm::mat4 m_earthMVMatrix;
+
+        GLint m_uMVPMatrix;
+        GLint m_uMVMatrix;
+        GLint m_uNormalMatrix;
+
+        GLint m_uKd;
+        GLint m_uKs;
+        GLint m_uShininess ;
+        GLint m_uLightDir_vs ;
+        GLint m_uLightIntensity;
 
 
 
     public:
+        glimac::Program program;
         //Constructeur
+        Scene(){};
         Scene(string path);
 
         //On charge la scène et ses attributs
@@ -21,12 +40,11 @@ class Scene{
         void drawScene();
 
         //destructeur
-        ~Scene();
+        //~Scene();
 
     
 };
 
-};
 
 
 

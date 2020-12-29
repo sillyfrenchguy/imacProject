@@ -1,1 +1,9 @@
-# 
+# Fichier de description de scène
+# Scène Test
+#
+NbModels 3
+# Models nécessaires
+IPHONE ../project/template/models/iPhone5/iPhone5.obj 0.0 10.0 -10.0 0.02 0.02 0.02
+COULOIR ../project/template/models/testOBJ.obj 0.0 0.0 0.0 1.0 1.0 1.0
+SDCARD ../project/template/models/sdcard/SD_Card.obj 0.0 0.0 0.0 0.5 0.5 0.5
+#

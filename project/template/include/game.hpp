@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include <glimac/FilePath.hpp>
 #include "glimac/common.hpp"
-#include "camera.hpp"
+//#include "camera.hpp"
 #include "scene.hpp"
 #include "Model.h"
 #include "Shader.h"
@@ -12,14 +12,16 @@ namespace glimac {
 
 class Game{
     private:
-        Camera m_camera;
+        //Camera m_camera;
         SDLWindowManager m_window;
-        //Scene m_scene;
         FilePath m_applicationPath;
+
+        
 
         GLuint vao;
         GLuint vbo;
 
+        /* Travail classe scène
         glm::mat4 m_ProjMatrix;
         glm::mat4 m_cameraViewMatrix;
         glm::mat4 m_earthMVMatrix;
@@ -33,6 +35,7 @@ class Game{
         GLint m_uShininess ;
         GLint m_uLightDir_vs ;
         GLint m_uLightIntensity;
+        */
 
         std::vector<glm::vec3> m_randAxe;
         std::vector<glm::vec3> m_randTranslation;
@@ -43,6 +46,7 @@ class Game{
 		Program* program;
 
     public:
+        Scene *m_scene;
         //Constructeur
         Game(char** argv);
 
