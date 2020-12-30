@@ -23,6 +23,7 @@ class Scene{
         GLint m_uKs;
         GLint m_uShininess ;
         GLint m_uLightDir_vs ;
+        GLint m_uLightPos_vs ;
         GLint m_uLightIntensity;
 
 

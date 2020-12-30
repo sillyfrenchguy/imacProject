@@ -48,7 +48,7 @@ void Scene::loadScene(string path){
     else{
         cout << "Fichier illisible" << endl;
     }
-    this->program = glimac::loadProgram("../project/template/shaders/3D.vs.glsl","../project/template/shaders/directionallights.fs.glsl");
+    this->program = glimac::loadProgram("../project/template/shaders/3D.vs.glsl","../project/template/shaders/pointlights.fs.glsl");
 	this->program.use();
     this->m_uMVPMatrix = glGetUniformLocation(this->program.getGLId(), "uMVPMatrix");
 	this->m_uMVMatrix = glGetUniformLocation(this->program.getGLId(), "uMVMatrix");
@@ -58,6 +58,7 @@ void Scene::loadScene(string path){
     this->m_uKs = glGetUniformLocation(this->program.getGLId(), "uKs");
     this->m_uShininess = glGetUniformLocation(this->program.getGLId(), "uShininess");
     this->m_uLightDir_vs = glGetUniformLocation(this->program.getGLId(), "uLightDir_vs");
+    this->m_uLightPos_vs = glGetUniformLocation(this->program.getGLId(), "uLightPos_vs");
     this->m_uLightIntensity = glGetUniformLocation(this->program.getGLId(), "uLightIntensity");
 
 	//this->program = new glimac::Program(move(this->program));
@@ -72,9 +73,16 @@ void Scene::drawScene(){
     glUniform3f(this->m_uKd, 1.0, 1.0, 1.0);
     glUniform3f(this->m_uKs, 1.0, 1.0, 1.0);
     glUniform1f(this->m_uShininess, 1.0);
-    glm::vec4 LightDir = this->m_cameraViewMatrix * glm::vec4(1.0,1.0,1.0,0.);
-    glUniform3f(this->m_uLightDir_vs, LightDir.x, LightDir.y, LightDir.z);
-    glUniform3f(this->m_uLightIntensity, 1.0,1.0,1.0);
+
+    //LIGHT DIRECTIONAL
+    //glm::vec4 LightDir = this->m_cameraViewMatrix * glm::vec4(1.0,1.0,1.0,0.);
+    //glUniform3f(this->m_uLightDir_vs, LightDir.x, LightDir.y, LightDir.z);
+    
+    //LIGHT POINT
+    glm::vec4 LightPoint = this->m_cameraViewMatrix * glm::vec4(1.0,1.0,1.0,0.);
+    glUniform3f(this->m_uLightPos_vs, LightPoint.x, LightPoint.y, LightPoint.z);
+    
+    glUniform3f(this->m_uLightIntensity, 10000.0,10000.0,10000.0); //j'ai mis 3 pour plus de luminosité
 
     //On parcourt la map contenant tous les models à l'aide d'un iterator
     map<string, Model>::iterator it_models;
