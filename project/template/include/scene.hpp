@@ -8,7 +8,7 @@
 
 class Scene{
     private:
-        glimac::Camera m_camera;
+        
         map<string, Model> models;
 
         glm::mat4 m_ProjMatrix;
@@ -29,6 +29,7 @@ class Scene{
 
     public:
         glimac::Program program;
+        glimac::Camera m_camera;
         //Constructeur
         Scene(){};
         Scene(string path);
@@ -41,6 +42,7 @@ class Scene{
 
         //destructeur
         //~Scene();
+        //glimac::Camera getCam(){return this->m_camera;} ;
 
     
 };

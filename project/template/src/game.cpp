@@ -41,6 +41,7 @@ namespace glimac {
                     done = true; // Leave the loop after this iteration
                 }
             }
+            moveCam(&(this->m_scene->m_camera));
             draw();
         }
     }
@@ -80,6 +81,7 @@ namespace glimac {
 
         glClearColor( 0.1f, 0.1f, 0.1f, 1.0f );
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+        
         this->m_scene->drawScene();
         /*
         m_camera.move();
@@ -122,6 +124,38 @@ namespace glimac {
         */
         m_window.swapBuffers();
     }
+
+    void Game::moveCam(Camera *m_camera){
+        float speed = 0.5;
+
+        //Déplacement avec le clavier
+        if(this->getWindow().isKeyPressed(SDLK_s)){
+            
+            m_camera->moveFront(-speed);
+            cout << m_camera->getViewMatrix() << endl;
+        }
+        if(this->getWindow().isKeyPressed(SDLK_z)){
+            m_camera->moveFront(speed);
+        }
+        if(this->getWindow().isKeyPressed(SDLK_q)){
+            m_camera->moveLeft(speed);
+        }
+        if(this->getWindow().isKeyPressed(SDLK_d)){
+            m_camera->moveLeft(-speed);
+        }
+
+        //Déplacement avec la souris
+        glm::ivec2 mousePosition = glm::ivec2(0.0);
+
+        if(this->getWindow().isMouseButtonPressed(SDL_BUTTON_LEFT)){
+            mousePosition = this->getWindow().getMousePosition();
+            float mousePositionX = mousePosition.x/800.0f - 0.5;
+            float mousePositionY = mousePosition.y/600.0f - 0.5;
+
+            m_camera->rotateLeft(-3*mousePositionX);
+            m_camera->rotateUp(-3*mousePositionY);
+        }
+    }
 }
 
 
@@ -133,7 +167,6 @@ GLint TextureFromFile( const char *path, string directory )
     GLuint textureID;
     glGenTextures( 1, &textureID );
 
-    // unsigned char *image = SOIL_load_image( filename.c_str( ), &width, &height, 0, SOIL_LOAD_RGB );
 	std::cout << "load texture " << filename << std::endl;
 	auto image = glimac::ImageManager::loadImage(filename.c_str( ));
 	if (!image) {
@@ -149,7 +182,8 @@ GLint TextureFromFile( const char *path, string directory )
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glBindTexture( GL_TEXTURE_2D, 0 );
-    // SOIL_free_image_data( image );
 
     return textureID;
 }
+
+

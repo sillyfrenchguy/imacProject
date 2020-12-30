@@ -62,6 +62,9 @@ class Game{
 
         //draw RENDERING
         void draw();
+
+        //Event
+        void moveCam(Camera *m_camera);
 };
 
 }
