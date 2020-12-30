@@ -9,7 +9,7 @@
 class Scene{
     private:
         
-        map<string, Model> models;
+        //map<string, Model> models;
 
         glm::mat4 m_ProjMatrix;
         glm::mat4 m_cameraViewMatrix;
@@ -29,6 +29,8 @@ class Scene{
 
 
     public:
+        map<string, Model> models;
+        
         glimac::Program program;
         glimac::Camera m_camera;
         //Constructeur

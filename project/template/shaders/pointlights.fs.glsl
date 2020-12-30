@@ -19,7 +19,7 @@ vec3 blinnPhong(vec3 position_vs, vec3 normal_vs){
     vec3 wi = normalize(uLightPos_vs - position_vs);
     float d = distance(uLightPos_vs, position_vs);
     vec3 halfVector = (w0 + wi)/2.0;
-    return (uLightIntensity/(d*d))*(uKd*dot(normal_vs, wi) + uKs*pow((dot(normal_vs,halfVector)), uShininess));
+    return uLightIntensity*(uKd*dot(normal_vs, wi) + uKs*pow((dot(normal_vs,halfVector)), uShininess)); //je n'ai pas divisé par d²
 };
 
 void main() {

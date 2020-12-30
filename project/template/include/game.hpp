@@ -65,6 +65,9 @@ class Game{
 
         //Event
         void moveCam(Camera *m_camera);
+        void catchObject(Camera *m_camera);
+
+
 };
 
 }

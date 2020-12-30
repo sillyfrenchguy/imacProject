@@ -29,6 +29,8 @@ class Camera{
         void rotateLeft(float m_degrees); 
         void rotateUp(float m_degrees);
         glm::mat4 getViewMatrix() const;
+        //get la position de la camera
+        glm::vec3 getPosition() const; 
         //void move(); 
 };
 

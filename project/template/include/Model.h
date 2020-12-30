@@ -30,6 +30,7 @@ class Model
 public:
     glm::mat4 modelMatrix;
     float t_x, t_y, t_z, s_x, s_y, s_z;
+    bool m_show; 	
 
     Model(){}
 
@@ -47,8 +48,12 @@ public:
         this->s_x = s_x;
         this->s_y = s_y;
         this->s_z = s_z;
+        this->m_show = true; 
         this->loadModel(path);
     }
+
+    // Le destructeur
+    ~Model() = default;
 
     void Draw( glimac::Program* shader )
     {
@@ -61,7 +66,8 @@ public:
 private:
     vector<Mesh> meshes;
     string directory;
-    vector<Texture> textures_loaded;	
+    vector<Texture> textures_loaded;
+    
 
     void loadModel( string path )
     {
@@ -162,16 +168,16 @@ private:
     {
         vector<Texture> textures;
 
-        for ( GLuint i = 0; i < mat->GetTextureCount( type ); i++ )
+        for (GLuint i = 0; i < mat->GetTextureCount(type); i++)
         {
             aiString str;
-            mat->GetTexture( type, i, &str );
+            mat->GetTexture(type, i, &str);
             GLboolean skip = false;
 
             for ( GLuint j = 0; j < textures_loaded.size( ); j++ )
             {
                 if( textures_loaded[j].path == str )
-                {
+           {
                     textures.push_back( textures_loaded[j] );
                     skip = true;
                     break;

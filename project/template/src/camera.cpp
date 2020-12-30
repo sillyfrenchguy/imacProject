@@ -34,6 +34,10 @@ namespace glimac {
         return glm::lookAt(m_Position, m_Position + m_FrontVector ,m_UpVector);
     }
 
+    glm::vec3 Camera::getPosition() const{
+        return m_Position;
+    }
+
     void Camera::moveLeft(float t){
             m_Position += t*m_LeftVector;
             computeDirectionVectors();
