@@ -8,6 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 
+
 namespace glimac {
     /*constructeur*/
     Game::Game(char** argv) :
@@ -29,8 +30,6 @@ namespace glimac {
 
     void Game::loop(){
 
-        /*BOUCLE D'AFFICHAGE*/
-
         // Application loop:
         bool done = false;
         while(!done){
@@ -48,9 +47,11 @@ namespace glimac {
     }
 
     void Game::init(){
+        initMusicPlayer();
         this->m_scene= new Scene("../project/template/scenes/sceneTest.txt");
-        
+        Mix_Music *musique = initSceneMusic(0);
 		glEnable(GL_DEPTH_TEST);
+        
     }
 
     //draw RENDERING
