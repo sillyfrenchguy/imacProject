@@ -49,7 +49,7 @@ namespace glimac {
 
     // Fonction permettant le déplacement de la camera
     void Game::moveCam(Camera *m_camera){
-        float speed = 0.5;
+        float speed = 1.0;
 
         //Déplacement avec le clavier
         if(this->getWindow().isKeyPressed(SDLK_s)){

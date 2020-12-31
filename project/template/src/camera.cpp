@@ -15,7 +15,7 @@ namespace glimac {
     //:game(game), m_Position(Position), m_fPhi(fPhi), m_fTheta(fTheta){computeDirectionVectors();};
 
     Camera::Camera()
-    :m_Position((0.f,0.f,15.f)), m_fPhi(M_PI / 0.8), m_fTheta(-M_PI / 8) { computeDirectionVectors();}
+    :m_Position((0.f,1.f,15.f)), m_fPhi(M_PI / 0.8), m_fTheta(-M_PI / 8) { computeDirectionVectors();}
 
     //constructeur
     Camera::Camera(const glm::vec3 Position, const float fPhi, const float fTheta)
@@ -43,8 +43,13 @@ namespace glimac {
             computeDirectionVectors();
     }
     void Camera::moveFront(float t){
-            m_Position += t*m_FrontVector;
-            computeDirectionVectors();
+            //m_Position += t*m_FrontVector;
+            //La caméra ne peut pas se déplacer verticalement
+            //On projette donc le front vector dans le plan, et pour que la vitesse ne soit pas affecté par l'angle Theta (angle avec l'horizon), 
+            //on multiplie la norme du vecteur projeté par 1/(1 - sin(m_fTheta)**2) 
+            m_Position.x += t*glm::l1Norm(m_FrontVector)*glm::cos(m_fTheta)*(1.0/(1-pow(glm::sin(m_fTheta),2)))*glm::sin(m_fPhi);
+            m_Position.z += t*glm::l1Norm(m_FrontVector)*glm::cos(m_fTheta)*(1.0/(1-pow(glm::sin(m_fTheta),2)))*glm::cos(m_fPhi);
+            computeDirectionVectors();  
     }
     void Camera::rotateLeft(float m_degrees){
             m_fPhi += glm::radians(m_degrees);
