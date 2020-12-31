@@ -1,35 +1,18 @@
-#include <iostream>
-#include <glimac/SDLWindowManager.hpp>
-#include <glimac/glm.hpp>
-#include <GL/glew.h>
-#include <glimac/Program.hpp>
-#include "glimac/common.hpp"
 #include "game.hpp"
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/transform.hpp>
-
 
 namespace glimac {
-    /*constructeur*/
-    Game::Game(char** argv) :
-    // On créé une camera
-    //m_camera(*this),
-    // Initialize SDL and open a window
-    m_scene(),
-    m_window(1000, 800, "ImacGAME"),
-    m_applicationPath(argv[0])
-    {}
+    // Constructeur du jeu
+    Game::Game(char** argv):m_scene(), m_window(1000, 800, "ImacGAME"), m_applicationPath(argv[0]){}
 
-    //destructeur
+    // Destructeur
     Game::~Game(){}
 
-    //get window
+    // Fenêtre de jeu
     SDLWindowManager& Game::getWindow(){
         return m_window;
     }
 
     void Game::loop(){
-
         // Application loop:
         bool done = false;
         while(!done){
@@ -46,26 +29,25 @@ namespace glimac {
         }
     }
 
+    // Fonction d'initialisation du jeu (préparation de la musique, chargement de la scène, lecture de la musique correspondant à la scène)
     void Game::init(){
         initMusicPlayer();
         this->m_scene= new Scene("../project/template/scenes/sceneTest.txt");
         Mix_Music *musique = initSceneMusic(0);
-		glEnable(GL_DEPTH_TEST);
-        
+		glEnable(GL_DEPTH_TEST);  
     }
 
-    //draw RENDERING
+    // Fonction de dessin qui se trouvera dans la boucle de rendu (on dessine la scène correspondante)
     void Game::draw(){
-
         glClearColor( 0.1f, 0.1f, 0.1f, 1.0f );
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
 
         this->m_scene->drawScene();
         
         m_window.swapBuffers();
     }
 
+    // Fonction permettant le déplacement de la camera
     void Game::moveCam(Camera *m_camera){
         float speed = 0.5;
 
@@ -95,57 +77,49 @@ namespace glimac {
 
             m_camera->rotateLeft(-3*mousePositionX);
             m_camera->rotateUp(-3*mousePositionY);
-        }
-
-        
-
+        }    
     }
     
-    
-    void Game::catchObject(Camera *m_camera){
-
-        //Position de la camera
-        //std::cout << "La camera est à la position : " << m_camera->getPosition() << std::endl; 
-
-            
- 
+    // Fonction permettant au joueur d'attraper un sabre laser s'il est situé à proximité
+    void Game::catchObject(Camera *m_camera){ 
         //Capture avec le clavier
-        if(this->getWindow().isKeyPressed(SDLK_e)){   
+        if(this->getWindow().isKeyPressed(SDLK_e)){  
             map<string, Model>::iterator it_models;
-            this->m_scene->models.begin()->second.m_show = false;
-
+            for(it_models = this->m_scene->models.begin(); it_models != this->m_scene->models.end(); it_models++){
+                if (it_models->second.m_saber && glm::distance(it_models->second.getPositionXZ(), m_camera->getPositionXZ()) <=20.){
+                    //std::cout << "Vous pouvez ramasser le sabre laser ! " << std::endl; 
+                    it_models->second.m_show = false;
+                }
+            } 
         }
-
-    }
-    
+    }  
 }
 
 
-    GLint TextureFromFile( const char *path, string directory )
-    {
-        //Generate texture ID and load texture data
-        string filename = string( path );
-        filename = directory + '/' + filename;
-        GLuint textureID;
-        glGenTextures( 1, &textureID );
+GLint TextureFromFile(const char *path, string directory){
+    //On génère un ID pour la texture
+    string filename = string( path );
+    filename = directory + '/' + filename;
+    GLuint textureID;
+    glGenTextures( 1, &textureID );
 
-        std::cout << "load texture " << filename << std::endl;
-        auto image = glimac::ImageManager::loadImage(filename.c_str( ));
-        if (!image) {
-            std::cout << "failed to load texture " << filename << std::endl;
-        }
-
-        // Assign texture to ID
-        glBindTexture( GL_TEXTURE_2D, textureID );
-        glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, image->getWidth(), image->getHeight(), 0, GL_RGB, GL_FLOAT, image->getPixels() );
-        glGenerateMipmap( GL_TEXTURE_2D );
-
-        // Parameters
-        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
-        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glBindTexture( GL_TEXTURE_2D, 0 );
-
-        return textureID;
+    std::cout << "Chargement de la texture : " << filename << std::endl;
+    auto image = glimac::ImageManager::loadImage(filename.c_str( ));
+    if (!image) {
+        std::cout << "Echec de chargement de la texture " << filename << std::endl;
     }
+
+    // Association de la texture à l'ID
+    glBindTexture( GL_TEXTURE_2D, textureID );
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, image->getWidth(), image->getHeight(), 0, GL_RGB, GL_FLOAT, image->getPixels() );
+    glGenerateMipmap( GL_TEXTURE_2D );
+
+    // Paramètres de placement de la texture
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture( GL_TEXTURE_2D, 0 );
+
+    return textureID;
+}
 
 

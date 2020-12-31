@@ -16,6 +16,7 @@ void Scene::loadScene(string path){
     string modelName;
     string modelPath;
     float t_x, t_y, t_z, s_x, s_y, s_z;
+    bool saber;
 
     ifstream fichier(path);
     if(fichier){
@@ -34,10 +35,10 @@ void Scene::loadScene(string path){
 
                 for(int i =0; i<nbModels; i++){
                     istringstream iss(ligne);
-                    while(iss >> modelName >> modelPath >> t_x >> t_y >> t_z >> s_x >> s_y >> s_z){
-                        cout << "Nom du model : " << modelName << " Chemin : " << modelPath << endl;
+                    while(iss >> modelName >> modelPath >> t_x >> t_y >> t_z >> s_x >> s_y >> s_z >> saber){
+                        cout << "Nom du model : " << modelName << " Chemin : " << modelPath << " Light Saber : " << saber << endl;
                         //this->models[modelName] = Model("../project/template/models/testOBJ.obj");
-                        this->models[modelName] = Model(modelPath, t_x, t_y, t_z, s_x, s_y, s_z);
+                        this->models[modelName] = Model(modelPath, t_x, t_y, t_z, s_x, s_y, s_z, saber);
                     }
                     getline(fichier, ligne);
                 }

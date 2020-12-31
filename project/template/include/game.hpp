@@ -1,32 +1,22 @@
 #pragma once
+#include <iostream>
 #include <glimac/SDLWindowManager.hpp>
 #include <GL/glew.h>
+#include <glimac/glm.hpp>
 #include <glimac/FilePath.hpp>
 #include "glimac/common.hpp"
-//#include "camera.hpp"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
 #include "scene.hpp"
 #include "Model.h"
 #include "Shader.h"
 #include "music.hpp"
 
 namespace glimac {
-
 class Game{
     private:
-        //Camera m_camera;
         SDLWindowManager m_window;
         FilePath m_applicationPath;
-        
-        GLuint vao;
-        GLuint vbo;
-
-        std::vector<glm::vec3> m_randAxe;
-        std::vector<glm::vec3> m_randTranslation;
-
-        Model* model1;
-        Model* model2;
-        Model* model3;
-		Program* program;
 
     public:
         Scene *m_scene;
@@ -41,18 +31,19 @@ class Game{
 
         void loop();
 
+        // Fonction d'initialisation du jeu
         void init();
 
-        //draw RENDERING
+        // Fonction de dessin
         void draw();
 
-        //Event
+        // Fonction permettant le déplacement de la camera
         void moveCam(Camera *m_camera);
+
+        // Fonction permettant au joueur d'attraper un sabre laser s'il est situé à proximité
         void catchObject(Camera *m_camera);
 
-
 };
-
 }
 
 

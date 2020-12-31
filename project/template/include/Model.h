@@ -30,7 +30,8 @@ class Model
 public:
     glm::mat4 modelMatrix;
     float t_x, t_y, t_z, s_x, s_y, s_z;
-    bool m_show; 	
+    bool m_show; 
+    bool m_saber;	
 
     Model(){}
 
@@ -40,7 +41,7 @@ public:
         this->textures_loaded = model.textures_loaded;
     }
     
-    Model(string path, float t_x, float t_y, float t_z, float s_x, float s_y, float s_z )
+    Model(string path, float t_x, float t_y, float t_z, float s_x, float s_y, float s_z, bool saber)
     {
         this->t_x = t_x;
         this->t_y = t_y;
@@ -48,8 +49,13 @@ public:
         this->s_x = s_x;
         this->s_y = s_y;
         this->s_z = s_z;
-        this->m_show = true; 
+        this->m_show = true;
+        this->m_saber = saber;  
         this->loadModel(path);
+    }
+
+    glm::vec2 getPositionXZ() const{
+        return glm::vec2(t_x, t_z);
     }
 
     // Le destructeur
