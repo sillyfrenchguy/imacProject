@@ -5,6 +5,7 @@ void initMusicPlayer(){
     {
         std::cout << Mix_GetError() << std::endl;
     }
+    Mix_AllocateChannels(2);
     Mix_VolumeMusic(MIX_MAX_VOLUME);
 }
 
@@ -19,6 +20,23 @@ Mix_Music* initSceneMusic(int scene){
 
     Mix_PlayMusic(musique, -1); //Jouer infiniment la musique
     return musique;
+}
+
+Mix_Chunk* initSounds(int event){
+    Mix_Chunk *son;
+    if(event == 0){
+        son = Mix_LoadWAV("../project/assets/music/light_saber_sound.wav");
+    }
+    else{
+        std::cout << "Le son n'existe pas" << std::endl;
+    }
+
+    Mix_PlayChannel(1, son, 0); //Jouer infiniment la musique
+    return son;
+}
+
+void deleteSound(Mix_Chunk *son){
+    Mix_FreeChunk(son);
 }
 
 void deleteSceneMusic(Mix_Music *musique){

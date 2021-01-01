@@ -34,22 +34,23 @@ namespace glimac {
         initMusicPlayer();
         this->m_scene= new Scene("../project/template/scenes/sceneTest.txt");
         Mix_Music *musique = initSceneMusic(0);
+        this->interface = new Interface();
 		glEnable(GL_DEPTH_TEST);  
     }
 
     // Fonction de dessin qui se trouvera dans la boucle de rendu (on dessine la scène correspondante)
     void Game::draw(){
         glClearColor( 0.1f, 0.1f, 0.1f, 1.0f );
-        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         this->m_scene->drawScene();
-        
+        //this->interface->drawInterface(&m_window);
         m_window.swapBuffers();
     }
 
     // Fonction permettant le déplacement de la camera
     void Game::moveCam(Camera *m_camera){
-        float speed = 1.0;
+        float speed = 2.0;
 
         //Déplacement avec le clavier
         if(this->getWindow().isKeyPressed(SDLK_s)){
@@ -89,10 +90,15 @@ namespace glimac {
                 if (it_models->second.m_saber && glm::distance(it_models->second.getPositionXZ(), m_camera->getPositionXZ()) <=20.){
                     //std::cout << "Vous pouvez ramasser le sabre laser ! " << std::endl; 
                     it_models->second.m_show = false;
+                    Mix_Chunk *sonSabre = initSounds(0);
                 }
             } 
         }
-    }  
+    }
+
+    void Game::displayImage(){
+        
+    } 
 }
 
 

@@ -11,6 +11,7 @@
 #include "Model.h"
 #include "Shader.h"
 #include "music.hpp"
+#include "interface.hpp"
 
 namespace glimac {
 class Game{
@@ -20,6 +21,7 @@ class Game{
 
     public:
         Scene *m_scene;
+        Interface *interface;
         //Constructeur
         Game(char** argv);
 
@@ -42,6 +44,8 @@ class Game{
 
         // Fonction permettant au joueur d'attraper un sabre laser s'il est situé à proximité
         void catchObject(Camera *m_camera);
+
+        void displayImage();
 
 };
 }
