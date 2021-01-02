@@ -28,6 +28,30 @@ std::unique_ptr<Image> loadImage(const FilePath& filepath) {
     return pImage;
 }
 
+std::unique_ptr<ImageAlpha> loadImageAlpha(const FilePath& filepath) {
+    int x, y, n;
+    unsigned char *data = stbi_load(filepath.c_str(), &x, &y, &n, 4);
+    if(!data) {
+        std::cerr << "loading image " << filepath << " error: " << stbi_failure_reason() << std::endl;
+        return std::unique_ptr<ImageAlpha>();
+    }
+    std::unique_ptr<ImageAlpha> pImage(new ImageAlpha(x, y));
+    unsigned int size = x * y;
+    auto scale = 1.f / 255;
+    auto ptr = pImage->getPixels();
+    for(auto i = 0u; i < size; ++i) {
+        auto offset = 4 * i;
+        ptr->r = data[offset] * scale;
+        ptr->g = data[offset + 1] * scale;
+        ptr->b = data[offset + 2] * scale;
+        ptr->a = data[offset + 3] * scale;
+        ++ptr;
+    }
+    stbi_image_free(data);
+    return pImage;
+}
+
+
 std::unordered_map<FilePath, std::unique_ptr<Image>> ImageManager::m_ImageMap;
 
 const Image* ImageManager::loadImage(const FilePath& filepath) {
@@ -40,6 +64,21 @@ const Image* ImageManager::loadImage(const FilePath& filepath) {
         return nullptr;
     }
     auto& img = m_ImageMap[filepath] = std::move(pImage);
+    return img.get();
+}
+
+std::unordered_map<FilePath, std::unique_ptr<ImageAlpha>> ImageManager::m_ImageMapAlpha;
+
+const ImageAlpha* ImageManager::loadImageAlpha(const FilePath& filepath) {
+    auto it = m_ImageMapAlpha.find(filepath);
+    if(it != std::end(m_ImageMapAlpha)) {
+        return (*it).second.get();
+    }
+    auto pImage = glimac::loadImageAlpha(filepath);
+    if(!pImage) {
+        return nullptr;
+    }
+    auto& img = m_ImageMapAlpha[filepath] = std::move(pImage);
     return img.get();
 }
 

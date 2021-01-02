@@ -21,7 +21,8 @@ struct Vertex3DUV{
 class Interface{
     public :
         GLuint VAO, VBO;
-        GLuint Textures[1];
+        GLuint Textures[2];
+        GLuint star;
 
         Vertex3DUV vertices[3];
         //GLuint image;

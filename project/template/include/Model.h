@@ -58,6 +58,8 @@ public:
         this->m_saber = saber;
         this->m_saberCaught = false;   
         this->loadModel(path);
+        this->m_rotation = 0.0;
+        this->m_rotation_velocity = 10.0;
     }
 
     glm::vec2 getPositionXZ() const{

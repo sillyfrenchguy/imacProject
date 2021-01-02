@@ -36,10 +36,10 @@ namespace glimac {
     // Fonction d'initialisation du jeu (préparation de la musique, chargement de la scène, lecture de la musique correspondant à la scène)
     void Game::init(){
         initMusicPlayer();
-        this->m_scene[0] = new Scene("../project/template/scenes/sceneTest.txt");
+        this->m_scene[0] = new Scene("../project/template/scenes/sceneTest.txt", *this);
         //this->m_scene[1] = new Scene("../project/template/scenes/sceneTest2.txt");
         Mix_Music *musique = initSceneMusic(0);
-        //this->interface = new Interface();
+        this->interface = new Interface();
 		glEnable(GL_DEPTH_TEST); 
         this->m_saber = 0; 
     }
@@ -79,8 +79,8 @@ namespace glimac {
 
         if(this->getWindow().isMouseButtonPressed(SDL_BUTTON_LEFT)){
             mousePosition = this->getWindow().getMousePosition();
-            float mousePositionX = mousePosition.x/800.0f - 0.5;
-            float mousePositionY = mousePosition.y/600.0f - 0.5;
+            float mousePositionX = mousePosition.x/1000.0f - 0.5;
+            float mousePositionY = mousePosition.y/800.0f - 0.5;
 
             m_camera->rotateLeft(-3*mousePositionX);
             m_camera->rotateUp(-3*mousePositionY);
