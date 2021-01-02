@@ -22,6 +22,8 @@ class Game{
     public:
         Scene *m_scene;
         Interface *interface;
+        int m_saber;
+        static const int m_total_saber = 3;
         //Constructeur
         Game(char** argv);
 
@@ -46,6 +48,8 @@ class Game{
         void catchObject(Camera *m_camera);
 
         void displayImage();
+
+        int addSaber();
 
 };
 }

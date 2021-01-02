@@ -9,12 +9,13 @@
 //#include "Shader.h"
 
 
-struct Vertex2DUV{
+struct Vertex3DUV{
     public:
-        glm::vec2 m_position;
+        glm::vec3 m_position;
+        glm::vec3 m_color;
         glm::vec2 m_textCoordinates;
-        Vertex2DUV():m_position(glm::vec2(0,0)), m_textCoordinates(glm::vec2(0,0)){};
-        Vertex2DUV(const glm::vec2 position, const glm::vec2 textCoordinates):m_position(position),m_textCoordinates(textCoordinates){};
+        Vertex3DUV():m_position(glm::vec3(0,0,0)), m_color(glm::vec3(0,0,0)), m_textCoordinates(glm::vec2(0,0)){};
+        Vertex3DUV(const glm::vec3 position, const glm::vec3 color, const glm::vec2 textCoordinates):m_position(position), m_color(color),m_textCoordinates(textCoordinates){};
 };
 
 class Interface{
@@ -22,7 +23,7 @@ class Interface{
         GLuint VAO, VBO;
         GLuint Textures[1];
 
-        Vertex2DUV vertices[3];
+        Vertex3DUV vertices[3];
 
         glimac::Program shader;
         Interface();

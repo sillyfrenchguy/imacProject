@@ -2,7 +2,7 @@
 precision mediump float;
 
 in vec2 vTexture;
-//in vec3 vColor;
+in vec3 vColor;
 
 out vec3 fFragColor;
 

@@ -31,7 +31,8 @@ public:
     glm::mat4 modelMatrix;
     float t_x, t_y, t_z, s_x, s_y, s_z;
     bool m_show; 
-    bool m_saber;	
+    bool m_saber;
+    bool m_saberCaught;	
 
     Model(){}
 
@@ -50,7 +51,8 @@ public:
         this->s_y = s_y;
         this->s_z = s_z;
         this->m_show = true;
-        this->m_saber = saber;  
+        this->m_saber = saber;
+        this->m_saberCaught = false;   
         this->loadModel(path);
     }
 

@@ -80,6 +80,14 @@ namespace glimac {
             m_camera->rotateUp(-3*mousePositionY);
         }    
     }
+
+    int Game::addSaber(){
+        this->m_saber += 1;
+        if(this->m_saber = this->m_total_saber){
+            std::cout << "Vous avez ramassé tous les sabres" << std::endl;
+        }
+        return this->m_saber;
+    }
     
     // Fonction permettant au joueur d'attraper un sabre laser s'il est situé à proximité
     void Game::catchObject(Camera *m_camera){ 
@@ -88,9 +96,13 @@ namespace glimac {
             map<string, Model>::iterator it_models;
             for(it_models = this->m_scene->models.begin(); it_models != this->m_scene->models.end(); it_models++){
                 if (it_models->second.m_saber && glm::distance(it_models->second.getPositionXZ(), m_camera->getPositionXZ()) <=20.){
+                    if(!it_models->second.m_saberCaught)
                     //std::cout << "Vous pouvez ramasser le sabre laser ! " << std::endl; 
                     it_models->second.m_show = false;
+                    it_models->second.m_saberCaught = true;
                     Mix_Chunk *sonSabre = initSounds(0);
+                    // on ajoute le sabre ramassé au score
+                    this->addSaber();
                 }
             } 
         }
