@@ -24,8 +24,8 @@ class Interface{
         GLuint Textures[1];
 
         Vertex3DUV vertices[3];
-
+        //GLuint image;
         glimac::Program shader;
         Interface();
-        void drawInterface(glimac::SDLWindowManager* windowManager);
+        void drawInterface();
 };

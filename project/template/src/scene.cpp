@@ -90,13 +90,23 @@ void Scene::drawScene(){
     for(it_models = this->models.begin(); it_models != this->models.end(); it_models++){
         if (it_models->second.m_show == true){
             it_models->second.modelMatrix = this->m_earthMVMatrix;
+
             it_models->second.modelMatrix = glm::translate(it_models->second.modelMatrix, glm::vec3(it_models->second.t_x, it_models->second.t_y, it_models->second.t_z));
+
+            //Les sabres tourneront sur eux-même
+            if(it_models->second.m_saber){
+                it_models->second.m_rotation += it_models->second.m_rotation_velocity;
+
+                it_models->second.modelMatrix = glm::rotate(it_models->second.modelMatrix, it_models->second.m_rotation, glm::vec3(0.f,1.f,0.f));
+            }
+
             it_models->second.modelMatrix = glm::scale(it_models->second.modelMatrix, glm::vec3(it_models->second.s_x, it_models->second.s_y, it_models->second.s_z));
             glUniformMatrix4fv(this->m_uMVMatrix, 1, GL_FALSE, glm::value_ptr(it_models->second.modelMatrix));
             glUniformMatrix4fv(this->m_uNormalMatrix, 1, GL_FALSE, glm::value_ptr(glm::transpose(glm::inverse(it_models->second.modelMatrix))));
             glUniformMatrix4fv(this->m_uMVPMatrix, 1, GL_FALSE, glm::value_ptr(m_ProjMatrix * it_models->second.modelMatrix));
 
             it_models->second.Draw(&this->program);
+
         }
     }
 }

@@ -32,7 +32,9 @@ public:
     float t_x, t_y, t_z, s_x, s_y, s_z;
     bool m_show; 
     bool m_saber;
-    bool m_saberCaught;	
+    bool m_saberCaught;
+    float m_rotation;
+    float m_rotation_velocity;	
 
     Model(){}
 
@@ -40,6 +42,8 @@ public:
         this->meshes = model.meshes;
         this->directory = model.directory;
         this->textures_loaded = model.textures_loaded;
+        this->m_rotation = 0.0;
+        this->m_rotation_velocity = 10.0;
     }
     
     Model(string path, float t_x, float t_y, float t_z, float s_x, float s_y, float s_z, bool saber)

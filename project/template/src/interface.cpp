@@ -1,7 +1,7 @@
 #include "interface.hpp"
 
 using namespace glimac;
-
+/*
 Interface::Interface(){
     //this->shader = Shader("../project/template/shaders/tex2D.vs.glsl", "../project/template/shaders/tex2D.fs.glsl");
     this->shader = loadProgram("../project/template/shaders/tex2D.vs.glsl","../project/template/shaders/tex2D.fs.glsl");
@@ -50,8 +50,8 @@ Interface::Interface(){
     
 
     glBindTexture(GL_TEXTURE_2D, 0);
-}
-
+}*/
+/*
 void Interface::drawInterface(SDLWindowManager* windowManager){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glBindTexture(GL_TEXTURE_2D, this->Textures[0]);
@@ -66,4 +66,42 @@ void Interface::drawInterface(SDLWindowManager* windowManager){
     glBindVertexArray(0);
 
     windowManager->swapBuffers();
+}*/
+
+Interface::Interface(){
+    glGenTextures(1, &this->Textures[0]);
+    auto image = glimac::ImageManager::loadImage("/home/theo/TD_OPENGL/GLImac-Template/assets/textures/triforce.png");
+    glBindTexture(GL_TEXTURE_2D, this->Textures[0]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->getWidth(), image->getHeight(), 0, GL_RGBA, GL_FLOAT, image->getPixels());
+    glGenerateMipmap(GL_TEXTURE_2D);
+    
+    glColor3f(1.0,1.0,1.0);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0,1.0); glVertex2f(0.05,0.05);
+    glTexCoord2f(1.0,1.0); glVertex2f(0.3,0.05);
+    glTexCoord2f(1.0,0.0); glVertex2f(0.3,0.15);
+    glTexCoord2f(0.0,0.0); glVertex2f(0.05,0.15);
+    glEnd();
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Interface::drawInterface(){
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    glOrtho(0.0,1.0,1.0,0.0,-2.0,2.0);
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+
+    Interface();
+
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
 }
