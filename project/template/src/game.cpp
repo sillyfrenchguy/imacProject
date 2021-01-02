@@ -2,7 +2,7 @@
 
 namespace glimac {
     // Constructeur du jeu
-    Game::Game(char** argv):m_scene(), m_window(1000, 800, "ImacGAME"), m_current_scene(0), m_applicationPath(argv[0]){}
+    Game::Game(char** argv):m_scene(), m_window(1280, 720, "ImacGAME"), m_current_scene(0), m_applicationPath(argv[0]){}
 
     // Destructeur
     Game::~Game(){}
@@ -79,8 +79,8 @@ namespace glimac {
 
         if(this->getWindow().isMouseButtonPressed(SDL_BUTTON_LEFT)){
             mousePosition = this->getWindow().getMousePosition();
-            float mousePositionX = mousePosition.x/1000.0f - 0.5;
-            float mousePositionY = mousePosition.y/800.0f - 0.5;
+            float mousePositionX = mousePosition.x/1280.0f - 0.5;
+            float mousePositionY = mousePosition.y/720.0f - 0.5;
 
             m_camera->rotateLeft(-3*mousePositionX);
             m_camera->rotateUp(-3*mousePositionY);

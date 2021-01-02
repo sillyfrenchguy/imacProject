@@ -71,7 +71,7 @@ void Scene::loadScene(string path){
 //On dessine la scène dans la fenêtre
 void Scene::drawScene(){
     this->program.use();
-    this->m_ProjMatrix = glm::perspective(glm::radians(70.f), 800.f/600.f, 0.1f, 2000.f);
+    this->m_ProjMatrix = glm::perspective(glm::radians(70.f), 1280.f/720.f, 0.1f, 2000.f);
     this->m_cameraViewMatrix = this->m_camera.getViewMatrix();
     this->m_earthMVMatrix = this->m_camera.getViewMatrix();
     
