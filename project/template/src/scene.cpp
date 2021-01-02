@@ -42,6 +42,9 @@ void Scene::loadScene(string path){
                         cout << "Nom du model : " << modelName << " Chemin : " << modelPath << " Light Saber : " << saber << endl;
                         //this->models[modelName] = Model("../project/template/models/testOBJ.obj");
                         this->models[modelName] = Model(modelPath, t_x, t_y, t_z, s_x, s_y, s_z, saber);
+                        if (this->models[modelName].m_saber){
+                            m_objects.push_back(Saber::Saber(this->models[modelName])); // Il faut ajouter aussi l'option ou c'est un portail (flag supplémentaire ou différent)
+                        }
                     }
                     getline(fichier, ligne);
                 }

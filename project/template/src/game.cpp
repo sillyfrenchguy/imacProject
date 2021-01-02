@@ -19,9 +19,16 @@ namespace glimac {
             // Event loop:
             SDL_Event e;
             while(m_window.pollEvent(e)) {
-                if(e.type == SDL_QUIT) {
-                    done = true; // Leave the loop after this iteration
+                switch (e.type){
+                    case SDL_QUIT :
+                        done = true; //lkeave the loop after this iteration
+
+                    case SDLK_e :
+                        handleObject(&((this->m_scene[this->getCurrentScene()])->m_camera));
                 }
+                // if(e.type == SDL_QUIT) {
+                //     done = true; // Leave the loop after this iteration
+                // }
                 if(this->getWindow().isKeyPressed(SDLK_p)){  
                    this->setCurrentScene(1);
                 }
@@ -119,6 +126,15 @@ namespace glimac {
     void Game::displayImage(){
         
     } 
+    void Game::handleObject(Camera *m_camera){ 
+        if(this->getWindow().isKeyPressed(SDLK_e)){
+            for (int i =0; i<this->m_scene[this->getCurrentScene()]->m_objects.size(); i++){  // Parcours les objets au lieu des modèles
+                if (distance(((this->m_scene[this->getCurrentScene()])->m_objects[i]).m_position, m_camera->getPositionXZ()) <= 20.){
+                    m_scene[m_current_scene]->m_objects[i].interact(this); // Polymorphisme : Inutile de vérifier si c'est un sabre ou un portail 
+                }
+            }
+        }
+    }
 }
 
 

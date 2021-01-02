@@ -5,7 +5,9 @@
 #include "glimac/common.hpp"
 #include "glimac/Program.hpp"
 #include "camera.hpp"
+#include "object.hpp"
 #include "Model.h"
+#include <vector>
 
 namespace glimac{
 class Game;
@@ -37,6 +39,7 @@ class Scene{
         
         Program program;
         Camera m_camera;
+        std::vector<Object> m_objects; 
         //Constructeur
         Scene(string path, Game &game);
 

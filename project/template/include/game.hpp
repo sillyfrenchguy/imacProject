@@ -61,6 +61,8 @@ class Game{
             m_current_scene = current_scene;
         }
 
+        void handleObject(Camera* m_camera);
+
 };
 }
 

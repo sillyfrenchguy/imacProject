@@ -1,35 +1,41 @@
 #pragma once 
-#include "scene.hpp"
-#include "glimac/common.hpp"
-#include "Model.h"
+//#include "scene.hpp" 
+#include "glimac/common.hpp" 
+#include "Model.h" 
+#include "game.hpp" 
 
+namespace glimac{
+	class Game;
+	class Object { 
 
-class Object {
-	public : 
-		Model* m_model;
-		glm::vec2 position = {m_model->t_x, m_model->t_y};
-		void interact(){};
+		public : 
 
-		//Virtual class 
-};
+			Model* m_model; 
+			glm::vec2 m_position = {m_model->t_x, m_model->t_y}; 
+			void interact(Game* game){}; 
 
-class Saber : public Object { //A saber is an object (daughter class)
-	public : 
+			Object(Model model) : m_model(&model){};
+		
+	};
 
-		Saber();
-		Saber(Model model) : m_model(&model){}; // Error : Saber has no field named m_model ..? 
-		~Saber();
+	class Saber : public Object { //A saber is an object (daughter class)
+		public : 
 
-		void interact();
+			Saber();
+			Saber(Model model) : Object(model){}; 
+			~Saber();
 
-};
+			void interact(Game* game);
 
-class Portal : public Object {
-	public : 
+	};
 
-		Portal();
-		Portal(Model model) : m_model(&model){}; // Error : Portal has no field named m_model ..? 
-		~Portal();
+	class Portal : public Object {
+		public : 
 
-		void interact();
-};
+			Portal();
+			Portal(Model model) : Object(model){}; 
+			~Portal();
+
+			void interact(Game* game);
+	};
+}
