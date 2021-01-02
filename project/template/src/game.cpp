@@ -2,7 +2,7 @@
 
 namespace glimac {
     // Constructeur du jeu
-    Game::Game(char** argv):m_scene(), m_window(1000, 800, "ImacGAME"), m_applicationPath(argv[0]){}
+    Game::Game(char** argv):m_scene(), m_window(1000, 800, "ImacGAME"), m_current_scene(0), m_applicationPath(argv[0]){}
 
     // Destructeur
     Game::~Game(){}
@@ -22,9 +22,13 @@ namespace glimac {
                 if(e.type == SDL_QUIT) {
                     done = true; // Leave the loop after this iteration
                 }
+                if(this->getWindow().isKeyPressed(SDLK_p)){  
+                   this->setCurrentScene(1);
+                }
             }
-            moveCam(&(this->m_scene->m_camera));
-            catchObject(&(this->m_scene->m_camera));
+            
+            moveCam(&((this->m_scene[this->getCurrentScene()])->m_camera));
+            catchObject(&((this->m_scene[this->getCurrentScene()])->m_camera));
             draw();
         }
     }
@@ -32,7 +36,8 @@ namespace glimac {
     // Fonction d'initialisation du jeu (préparation de la musique, chargement de la scène, lecture de la musique correspondant à la scène)
     void Game::init(){
         initMusicPlayer();
-        this->m_scene= new Scene("../project/template/scenes/sceneTest.txt");
+        this->m_scene[0] = new Scene("../project/template/scenes/sceneTest.txt");
+        this->m_scene[1] = new Scene("../project/template/scenes/sceneTest2.txt");
         Mix_Music *musique = initSceneMusic(0);
         //this->interface = new Interface();
 		glEnable(GL_DEPTH_TEST); 
@@ -44,14 +49,14 @@ namespace glimac {
         glClearColor( 0.1f, 0.1f, 0.1f, 1.0f );
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        this->m_scene->drawScene();
+        (this->m_scene[this->getCurrentScene()])->drawScene();
         this->interface->drawInterface();
         m_window.swapBuffers();
     }
 
     // Fonction permettant le déplacement de la camera
     void Game::moveCam(Camera *m_camera){
-        float speed = 2.0;
+        float speed = 5.0;
 
         //Déplacement avec le clavier
         if(this->getWindow().isKeyPressed(SDLK_s)){
@@ -96,7 +101,7 @@ namespace glimac {
         //Capture avec le clavier
         if(this->getWindow().isKeyPressed(SDLK_e)){  
             map<string, Model>::iterator it_models;
-            for(it_models = this->m_scene->models.begin(); it_models != this->m_scene->models.end(); it_models++){
+            for(it_models = (this->m_scene[this->getCurrentScene()])->models.begin(); it_models != (this->m_scene[this->getCurrentScene()])->models.end(); it_models++){
                 if (it_models->second.m_saber && glm::distance(it_models->second.getPositionXZ(), m_camera->getPositionXZ()) <=20.){
                     if(!it_models->second.m_saberCaught){
                         //std::cout << "Vous pouvez ramasser le sabre laser ! " << std::endl; 

@@ -19,8 +19,10 @@ class Game{
         SDLWindowManager m_window;
         FilePath m_applicationPath;
 
+        int m_current_scene;
+
     public:
-        Scene *m_scene;
+        Scene *m_scene[2];
         Interface *interface;
         int m_saber;
         static const int m_total_saber = 3;
@@ -50,6 +52,14 @@ class Game{
         void displayImage();
 
         int addSaber();
+
+        int getCurrentScene(){
+            return m_current_scene;
+        }
+
+        void setCurrentScene(int current_scene){
+            m_current_scene = current_scene;
+        }
 
 };
 }
