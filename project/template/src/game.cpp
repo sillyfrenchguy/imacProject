@@ -37,7 +37,7 @@ namespace glimac {
     void Game::init(){
         initMusicPlayer();
         this->m_scene[0] = new Scene("../project/template/scenes/sceneTest.txt");
-        this->m_scene[1] = new Scene("../project/template/scenes/sceneTest2.txt");
+        //this->m_scene[1] = new Scene("../project/template/scenes/sceneTest2.txt");
         Mix_Music *musique = initSceneMusic(0);
         //this->interface = new Interface();
 		glEnable(GL_DEPTH_TEST); 
