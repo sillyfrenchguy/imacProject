@@ -1,9 +1,10 @@
 # Fichier de description de scène
-# Scène Test
+# Scène 0
 #
-NbModels 1
+NbModels 4
 # Models nécessaires
-SCENE1 ../project/template/models/Scene1V_2/scene1_small.obj 0.0 10.0 -10.0 1.0 1.0 1.0 0
+SCENE0 ../project/template/models/scene_0/scene_0_corridor_small.obj 0.0 0.0 -10.0 1.0 1.0 1.0 0
+PORTAL ../project/template/models/scene_0/scene_0_potal.obj 0.0 0.0 -10.0 1.0 1.0 1.0 0
 SABRELUKE ../project/template/models/sabre_Luke/sabre_Luke.obj 0.0 10.0 -10.0 0.02 0.02 0.02 1
 SABREVADOR ../project/template/models/sabre_Vador/sabre_Vador.obj 0.0 0.0 0.0 0.02 0.02 0.02 1
 SABREOBI ../project/template/models/sabre_ObiWan/sabre_ObiWan.obj 0.0 10.0 40.0 0.02 0.02 0.02 1

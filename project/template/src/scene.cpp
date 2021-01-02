@@ -2,9 +2,12 @@
 #include "scene.hpp"
 #include <fstream>
 #include <string>
+#include "game.hpp"
+
+namespace glimac{
 
 //Constructeur
-Scene::Scene(string path){
+Scene::Scene(string path, Game &game):game(game){
     //m_camera(*this);
     this->loadScene(path);
 }
@@ -67,7 +70,8 @@ void Scene::loadScene(string path){
 
 //On dessine la scène dans la fenêtre
 void Scene::drawScene(){
-    this->m_ProjMatrix = glm::perspective(glm::radians(70.f), 800.f/600.f, 0.1f, 2000.f);
+    this->program.use();
+    this->m_ProjMatrix = glm::perspective(glm::radians(70.f), 1280.f/720.f, 0.1f, 2000.f);
     this->m_cameraViewMatrix = this->m_camera.getViewMatrix();
     this->m_earthMVMatrix = this->m_camera.getViewMatrix();
     
@@ -93,11 +97,11 @@ void Scene::drawScene(){
 
             it_models->second.modelMatrix = glm::translate(it_models->second.modelMatrix, glm::vec3(it_models->second.t_x, it_models->second.t_y, it_models->second.t_z));
 
-            //Les sabres tourneront sur eux-même
+            //Les sabres tourneront sur eux-mêmes
             if(it_models->second.m_saber){
-                it_models->second.m_rotation += it_models->second.m_rotation_velocity;
+                it_models->second.m_rotation = it_models->second.m_rotation_velocity*this->game.getWindow().getTime();
 
-                it_models->second.modelMatrix = glm::rotate(it_models->second.modelMatrix, it_models->second.m_rotation, glm::vec3(0.f,1.f,0.f));
+                it_models->second.modelMatrix = glm::rotate(it_models->second.modelMatrix, it_models->second.m_rotation, glm::vec3(0,1,0));
             }
 
             it_models->second.modelMatrix = glm::scale(it_models->second.modelMatrix, glm::vec3(it_models->second.s_x, it_models->second.s_y, it_models->second.s_z));
@@ -109,4 +113,5 @@ void Scene::drawScene(){
 
         }
     }
+}
 }

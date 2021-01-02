@@ -1,14 +1,14 @@
 #include "interface.hpp"
 
 using namespace glimac;
-/*
+
 Interface::Interface(){
     //this->shader = Shader("../project/template/shaders/tex2D.vs.glsl", "../project/template/shaders/tex2D.fs.glsl");
     this->shader = loadProgram("../project/template/shaders/tex2D.vs.glsl","../project/template/shaders/tex2D.fs.glsl");
 
-    this->vertices[0] = Vertex3DUV(glm::vec3(-1, -1, 0), glm::vec3(1,0,0), glm::vec2(0, 1));
-    this->vertices[1] = Vertex3DUV(glm::vec3(1, -1, 0), glm::vec3(1,0,0), glm::vec2(1, 1));
-    this->vertices[2] = Vertex3DUV(glm::vec3(0, 1, 0), glm::vec3(1,0,0), glm::vec2(0.5, 0));
+    this->vertices[0] = Vertex3DUV(glm::vec3(-0.5, -0.5, 0), glm::vec3(1,0,0), glm::vec2(0, 1));
+    this->vertices[1] = Vertex3DUV(glm::vec3(0.5, -0.5, 0), glm::vec3(1,0,0), glm::vec2(1, 1));
+    this->vertices[2] = Vertex3DUV(glm::vec3(0, 0.5, 0), glm::vec3(1,0,0), glm::vec2(0.5, 0));
 
     // On créé le VBO
     glGenBuffers(1, &this->VBO);
@@ -39,7 +39,7 @@ Interface::Interface(){
     glBindVertexArray(0);
 
     glGenTextures(1, &this->Textures[0]);
-    auto image = glimac::ImageManager::loadImage("/home/theo/TD_OPENGL/GLImac-Template/assets/textures/triforce.png");
+    auto image = glimac::ImageManager::loadImageAlpha("../project/template/models/test_img.png");
     glBindTexture(GL_TEXTURE_2D, this->Textures[0]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -47,27 +47,42 @@ Interface::Interface(){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->getWidth(), image->getHeight(), 0, GL_RGBA, GL_FLOAT, image->getPixels());
     glGenerateMipmap(GL_TEXTURE_2D);
-    
-
     glBindTexture(GL_TEXTURE_2D, 0);
-}*/
-/*
-void Interface::drawInterface(SDLWindowManager* windowManager){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glBindTexture(GL_TEXTURE_2D, this->Textures[0]);
+
+    glGenTextures(1, &this->Textures[1]);
+    auto image2 = glimac::ImageManager::loadImageAlpha("../project/template/models/star_wars.png");
+    glBindTexture(GL_TEXTURE_2D, this->Textures[1]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image2->getWidth(), image2->getHeight(), 0, GL_RGBA, GL_FLOAT, image2->getPixels());
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Interface::drawInterface(){
+    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     this->shader.use();
-    //this->shader.Use();
     glBindVertexArray(this->VAO);
-    
-    
-    
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, this->Textures[0]);
+    glUniform1i(glGetUniformLocation(this->shader.getGLId(), "vTexture"), 0);
     glDrawArrays(GL_TRIANGLES, 0, 3);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, this->Textures[1]);
+    glUniform1i(glGetUniformLocation(this->shader.getGLId(), "vTexture"), 0);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glBindTexture(GL_TEXTURE_2D, 0);
 
     glBindVertexArray(0);
-
-    windowManager->swapBuffers();
-}*/
-
+}
+/*
 Interface::Interface(){
     glGenTextures(1, &this->Textures[0]);
     auto image = glimac::ImageManager::loadImage("/home/theo/TD_OPENGL/GLImac-Template/assets/textures/triforce.png");
@@ -102,4 +117,4 @@ void Interface::drawInterface(){
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
-}
+}*/

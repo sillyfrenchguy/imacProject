@@ -1,3 +1,4 @@
+#pragma once
 #include <glimac/SDLWindowManager.hpp>
 #include <GL/glew.h>
 #include <glimac/FilePath.hpp>
@@ -6,6 +7,8 @@
 #include "camera.hpp"
 #include "Model.h"
 
+namespace glimac{
+class Game;
 class Scene{
     private:
         
@@ -30,12 +33,12 @@ class Scene{
 
     public:
         map<string, Model> models;
+        Game &game;
         
-        glimac::Program program;
-        glimac::Camera m_camera;
+        Program program;
+        Camera m_camera;
         //Constructeur
-        Scene(){};
-        Scene(string path);
+        Scene(string path, Game &game);
 
         //On charge la scène et ses attributs
         void loadScene(string path);
@@ -49,6 +52,7 @@ class Scene{
 
     
 };
+}
 
 
 
