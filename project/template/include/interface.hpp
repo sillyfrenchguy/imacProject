@@ -16,17 +16,23 @@ struct Vertex3DUV{
         glm::vec2 m_textCoordinates;
         Vertex3DUV():m_position(glm::vec3(0,0,0)), m_color(glm::vec3(0,0,0)), m_textCoordinates(glm::vec2(0,0)){};
         Vertex3DUV(const glm::vec3 position, const glm::vec3 color, const glm::vec2 textCoordinates):m_position(position), m_color(color),m_textCoordinates(textCoordinates){};
+        
 };
 
 class Interface{
+    private :
+        int m_currentHUD;
+        
     public :
         GLuint VAO, VBO;
-        GLuint Textures[2];
+        GLuint Textures[10];
         GLuint star;
 
-        Vertex3DUV vertices[3];
+        Vertex3DUV vertices[6];
         //GLuint image;
         glimac::Program shader;
         Interface();
         void drawInterface();
+        int getCurrentHUD(){return m_currentHUD;};
+        void setCurrentHUD(int currentHUD){m_currentHUD = currentHUD;};
 };

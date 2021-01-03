@@ -12,6 +12,7 @@
 #include "Shader.h"
 #include "music.hpp"
 #include "interface.hpp"
+#include "object.hpp"
 
 namespace glimac {
 class Game{
@@ -24,8 +25,12 @@ class Game{
     public:
         Scene *m_scene[2];
         Interface *interface;
-        int m_saber;
-        static const int m_total_saber = 3;
+        //int m_saber;
+        bool m_gameStart = false;
+        bool m_gameLoading = true;
+        bool m_infoBox = true;
+        
+        //static const int m_total_saber = 4;
         //Constructeur
         Game(char** argv);
 
@@ -37,6 +42,8 @@ class Game{
 
         void loop();
 
+        void loading();
+
         // Fonction d'initialisation du jeu
         void init();
 
@@ -47,7 +54,7 @@ class Game{
         void moveCam(Camera *m_camera);
 
         // Fonction permettant au joueur d'attraper un sabre laser s'il est situé à proximité
-        void catchObject(Camera *m_camera);
+        void catchObject(Saber *objet);
 
         void displayImage();
 

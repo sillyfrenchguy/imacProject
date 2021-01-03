@@ -12,6 +12,9 @@ void initMusicPlayer(){
 Mix_Music* initSceneMusic(int scene){
     Mix_Music *musique;
     if(scene == 0){
+        musique = Mix_LoadMUS("../project/assets/music/john-williams-star-wars-main-theme.mp3");
+    }
+    else if(scene == 1){
         musique = Mix_LoadMUS("../project/assets/music/death_star_suite.mp3");
     }
     else{
@@ -27,11 +30,14 @@ Mix_Chunk* initSounds(int event){
     if(event == 0){
         son = Mix_LoadWAV("../project/assets/music/light_saber_sound.wav");
     }
+    else if(event == 1){
+        son = Mix_LoadWAV("../project/assets/music/r2d2_sound_effect(1).wav");
+    }
     else{
         std::cout << "Le son n'existe pas" << std::endl;
     }
 
-    Mix_PlayChannel(1, son, 0); //Jouer infiniment la musique
+    Mix_PlayChannel(1, son, 0); //Jouer une seule fois le son
     return son;
 }
 

@@ -2,7 +2,7 @@
 //#include "scene.hpp" 
 #include "glimac/common.hpp" 
 #include "Model.h" 
-#include "game.hpp" 
+//#include "game.hpp" 
 
 namespace glimac{
 	class Game;
@@ -11,10 +11,10 @@ namespace glimac{
 		public : 
 
 			Model* m_model; 
-			glm::vec2 m_position = {m_model->t_x, m_model->t_y}; 
+			glm::vec2 m_position = {m_model->t_x, m_model->t_z}; 
 			void interact(Game* game){}; 
 
-			Object(Model model) : m_model(&model){};
+			Object(Model* model) : m_model(model){};
 		
 	};
 
@@ -22,7 +22,7 @@ namespace glimac{
 		public : 
 
 			Saber();
-			Saber(Model model) : Object(model){}; 
+			Saber(Model* model) : Object(model){}; 
 			~Saber();
 
 			void interact(Game* game);
@@ -33,7 +33,7 @@ namespace glimac{
 		public : 
 
 			Portal();
-			Portal(Model model) : Object(model){}; 
+			Portal(Model* model) : Object(model){}; 
 			~Portal();
 
 			void interact(Game* game);

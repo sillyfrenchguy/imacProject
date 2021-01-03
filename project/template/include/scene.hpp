@@ -36,10 +36,13 @@ class Scene{
     public:
         map<string, Model> models;
         Game &game;
+
+        int m_total_saber = 0;
+        int m_saber = 0;
         
         Program program;
         Camera m_camera;
-        std::vector<Object> m_objects; 
+        std::vector<glimac::Object> m_objects; 
         //Constructeur
         Scene(string path, Game &game);
 

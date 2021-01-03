@@ -19,7 +19,7 @@ void Scene::loadScene(string path){
     string modelName;
     string modelPath;
     float t_x, t_y, t_z, s_x, s_y, s_z;
-    bool saber;
+    bool saber, portal;
 
     ifstream fichier(path);
     if(fichier){
@@ -38,12 +38,16 @@ void Scene::loadScene(string path){
 
                 for(int i =0; i<nbModels; i++){
                     istringstream iss(ligne);
-                    while(iss >> modelName >> modelPath >> t_x >> t_y >> t_z >> s_x >> s_y >> s_z >> saber){
+                    while(iss >> modelName >> modelPath >> t_x >> t_y >> t_z >> s_x >> s_y >> s_z >> saber >> portal){
                         cout << "Nom du model : " << modelName << " Chemin : " << modelPath << " Light Saber : " << saber << endl;
                         //this->models[modelName] = Model("../project/template/models/testOBJ.obj");
-                        this->models[modelName] = Model(modelPath, t_x, t_y, t_z, s_x, s_y, s_z, saber);
+                        this->models[modelName] = Model(modelPath, t_x, t_y, t_z, s_x, s_y, s_z, saber, portal);
                         if (this->models[modelName].m_saber){
-                            m_objects.push_back(Saber::Saber(this->models[modelName])); // Il faut ajouter aussi l'option ou c'est un portail (flag supplémentaire ou différent)
+                            m_objects.push_back(Saber(&this->models[modelName])); // Il faut ajouter aussi l'option ou c'est un portail (flag supplémentaire ou différent)
+                            this->m_total_saber += 1;
+                        }
+                        if (this->models[modelName].m_portal){
+                            m_objects.push_back(Portal(&this->models[modelName])); 
                         }
                     }
                     getline(fichier, ligne);
@@ -100,13 +104,14 @@ void Scene::drawScene(){
 
             it_models->second.modelMatrix = glm::translate(it_models->second.modelMatrix, glm::vec3(it_models->second.t_x, it_models->second.t_y, it_models->second.t_z));
 
-            //Les sabres tourneront sur eux-mêmes
+            //Animation des lasers
             if(it_models->second.m_saber){
-                it_models->second.m_rotation = it_models->second.m_rotation_velocity*this->game.getWindow().getTime();
+                it_models->second.m_rotation = it_models->second.m_rotation_velocity*cos(this->game.getWindow().getTime());
 
-                it_models->second.modelMatrix = glm::rotate(it_models->second.modelMatrix, it_models->second.m_rotation, glm::vec3(0,1,0));
+                it_models->second.modelMatrix = glm::translate(it_models->second.modelMatrix, glm::vec3(0,it_models->second.m_rotation,0));
+
+                it_models->second.modelMatrix = glm::rotate(it_models->second.modelMatrix, 100.f, glm::vec3(0,0,1));
             }
-
             it_models->second.modelMatrix = glm::scale(it_models->second.modelMatrix, glm::vec3(it_models->second.s_x, it_models->second.s_y, it_models->second.s_z));
             glUniformMatrix4fv(this->m_uMVMatrix, 1, GL_FALSE, glm::value_ptr(it_models->second.modelMatrix));
             glUniformMatrix4fv(this->m_uNormalMatrix, 1, GL_FALSE, glm::value_ptr(glm::transpose(glm::inverse(it_models->second.modelMatrix))));

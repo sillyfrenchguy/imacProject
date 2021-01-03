@@ -32,6 +32,7 @@ public:
     float t_x, t_y, t_z, s_x, s_y, s_z;
     bool m_show; 
     bool m_saber;
+    bool m_portal;
     bool m_saberCaught;
     float m_rotation;
     float m_rotation_velocity;	
@@ -46,7 +47,7 @@ public:
         this->m_rotation_velocity = 10.0;
     }
     
-    Model(string path, float t_x, float t_y, float t_z, float s_x, float s_y, float s_z, bool saber)
+    Model(string path, float t_x, float t_y, float t_z, float s_x, float s_y, float s_z, bool saber, bool portal)
     {
         this->t_x = t_x;
         this->t_y = t_y;
@@ -201,7 +202,7 @@ private:
             if( !skip )
             {   
                 Texture texture;
-                texture.id = TextureFromFile( str.C_Str( ), this->directory );
+                texture.id = TextureFromFile(str.C_Str(), this->directory );
                 texture.type = typeName;
                 texture.path = str;
                 textures.push_back( texture );

@@ -2,20 +2,23 @@
 
 using namespace glimac;
 
-Interface::Interface(){
+Interface::Interface():m_currentHUD(8){
     //this->shader = Shader("../project/template/shaders/tex2D.vs.glsl", "../project/template/shaders/tex2D.fs.glsl");
     this->shader = loadProgram("../project/template/shaders/tex2D.vs.glsl","../project/template/shaders/tex2D.fs.glsl");
 
-    this->vertices[0] = Vertex3DUV(glm::vec3(-0.5, -0.5, 0), glm::vec3(1,0,0), glm::vec2(0, 1));
-    this->vertices[1] = Vertex3DUV(glm::vec3(0.5, -0.5, 0), glm::vec3(1,0,0), glm::vec2(1, 1));
-    this->vertices[2] = Vertex3DUV(glm::vec3(0, 0.5, 0), glm::vec3(1,0,0), glm::vec2(0.5, 0));
+    this->vertices[0] = Vertex3DUV(glm::vec3(-1.0, -1.0, 0), glm::vec3(1,0,0), glm::vec2(0, 1));
+    this->vertices[1] = Vertex3DUV(glm::vec3(1.0, -1.0, 0), glm::vec3(1,0,0), glm::vec2(1, 1));
+    this->vertices[2] = Vertex3DUV(glm::vec3(1.0, 1.0, 0), glm::vec3(1,0,0), glm::vec2(1, 0));
+    this->vertices[3] = Vertex3DUV(glm::vec3(-1.0, -1.0, 0), glm::vec3(1,0,0), glm::vec2(-1, 0));
+    this->vertices[4] = Vertex3DUV(glm::vec3(-1.0, 1.0, 0), glm::vec3(1,0,0), glm::vec2(-1, -1));
+    this->vertices[5] = Vertex3DUV(glm::vec3(1.0, 1.0, 0), glm::vec3(1,0,0), glm::vec2(0, -1));
 
     // On créé le VBO
     glGenBuffers(1, &this->VBO);
 
     // On le bind
     glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
-    glBufferData(GL_ARRAY_BUFFER, (3) * sizeof(Vertex3DUV), this->vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, (6) * sizeof(Vertex3DUV), this->vertices, GL_STATIC_DRAW);
 
     //glBindBuffer(GL_ARRAY_BUFFER, 0); // on débind le VBO
 
@@ -39,7 +42,7 @@ Interface::Interface(){
     glBindVertexArray(0);
 
     glGenTextures(1, &this->Textures[0]);
-    auto image = glimac::ImageManager::loadImageAlpha("../project/template/models/test_img.png");
+    auto image = glimac::ImageManager::loadImageAlpha("../project/assets/img/menu_chargement.png");
     glBindTexture(GL_TEXTURE_2D, this->Textures[0]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -50,13 +53,101 @@ Interface::Interface(){
     glBindTexture(GL_TEXTURE_2D, 0);
 
     glGenTextures(1, &this->Textures[1]);
-    auto image2 = glimac::ImageManager::loadImageAlpha("../project/template/models/star_wars.png");
+    auto infoBox1 = glimac::ImageManager::loadImageAlpha("../project/assets/img/info_r2.png");
     glBindTexture(GL_TEXTURE_2D, this->Textures[1]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image2->getWidth(), image2->getHeight(), 0, GL_RGBA, GL_FLOAT, image2->getPixels());
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, infoBox1->getWidth(), infoBox1->getHeight(), 0, GL_RGBA, GL_FLOAT, infoBox1->getPixels());
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glGenTextures(1, &this->Textures[2]);
+    auto recupSabre = glimac::ImageManager::loadImageAlpha("../project/assets/img/info_box.png");
+    glBindTexture(GL_TEXTURE_2D, this->Textures[2]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, recupSabre->getWidth(), recupSabre->getHeight(), 0, GL_RGBA, GL_FLOAT, recupSabre->getPixels());
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glGenTextures(1, &this->Textures[3]);
+    auto saberCount0 = glimac::ImageManager::loadImageAlpha("../project/assets/img/saber_count_0.png");
+    glBindTexture(GL_TEXTURE_2D, this->Textures[3]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, saberCount0->getWidth(), saberCount0->getHeight(), 0, GL_RGBA, GL_FLOAT, saberCount0->getPixels());
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glGenTextures(1, &this->Textures[4]);
+    auto saberCount1 = glimac::ImageManager::loadImageAlpha("../project/assets/img/saber_count_1.png");
+    glBindTexture(GL_TEXTURE_2D, this->Textures[4]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, saberCount1->getWidth(), saberCount1->getHeight(), 0, GL_RGBA, GL_FLOAT, saberCount1->getPixels());
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glGenTextures(1, &this->Textures[5]);
+    auto saberCount2 = glimac::ImageManager::loadImageAlpha("../project/assets/img/saber_count_2.png");
+    glBindTexture(GL_TEXTURE_2D, this->Textures[5]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, saberCount2->getWidth(), saberCount2->getHeight(), 0, GL_RGBA, GL_FLOAT, saberCount2->getPixels());
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glGenTextures(1, &this->Textures[6]);
+    auto saberCount3 = glimac::ImageManager::loadImageAlpha("../project/assets/img/saber_count_3.png");
+    glBindTexture(GL_TEXTURE_2D, this->Textures[6]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, saberCount3->getWidth(), saberCount3->getHeight(), 0, GL_RGBA, GL_FLOAT, saberCount3->getPixels());
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glGenTextures(1, &this->Textures[7]);
+    auto saberCount4 = glimac::ImageManager::loadImageAlpha("../project/assets/img/saber_count_4.png");
+    glBindTexture(GL_TEXTURE_2D, this->Textures[7]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, saberCount4->getWidth(), saberCount4->getHeight(), 0, GL_RGBA, GL_FLOAT, saberCount4->getPixels());
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glGenTextures(1, &this->Textures[8]);
+    auto loading = glimac::ImageManager::loadImageAlpha("../project/assets/img/a_long_time_ago.png");
+    glBindTexture(GL_TEXTURE_2D, this->Textures[8]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, loading->getWidth(), loading->getHeight(), 0, GL_RGBA, GL_FLOAT, loading->getPixels());
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glGenTextures(1, &this->Textures[9]);
+    auto portail = glimac::ImageManager::loadImageAlpha("../project/assets/img/info_portail.png");
+    glBindTexture(GL_TEXTURE_2D, this->Textures[9]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, portail->getWidth(), portail->getHeight(), 0, GL_RGBA, GL_FLOAT, portail->getPixels());
     glGenerateMipmap(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
 }
@@ -69,52 +160,10 @@ void Interface::drawInterface(){
     glBindVertexArray(this->VAO);
 
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, this->Textures[0]);
+    glBindTexture(GL_TEXTURE_2D, this->Textures[this->m_currentHUD]);
     glUniform1i(glGetUniformLocation(this->shader.getGLId(), "vTexture"), 0);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, this->Textures[1]);
-    glUniform1i(glGetUniformLocation(this->shader.getGLId(), "vTexture"), 0);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindTexture(GL_TEXTURE_2D, 0);
 
     glBindVertexArray(0);
 }
-/*
-Interface::Interface(){
-    glGenTextures(1, &this->Textures[0]);
-    auto image = glimac::ImageManager::loadImage("/home/theo/TD_OPENGL/GLImac-Template/assets/textures/triforce.png");
-    glBindTexture(GL_TEXTURE_2D, this->Textures[0]);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->getWidth(), image->getHeight(), 0, GL_RGBA, GL_FLOAT, image->getPixels());
-
-    
-    glColor3f(1.0,1.0,1.0);
-    glBegin(GL_QUADS);
-    glTexCoord2f(0.0,1.0); glVertex2f(0.05,0.05);
-    glTexCoord2f(1.0,1.0); glVertex2f(0.3,0.05);
-    glTexCoord2f(1.0,0.0); glVertex2f(0.3,0.15);
-    glTexCoord2f(0.0,0.0); glVertex2f(0.05,0.15);
-    glEnd();
-    glBindTexture(GL_TEXTURE_2D, 0);
-}
-
-void Interface::drawInterface(){
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
-    glOrtho(0.0,1.0,1.0,0.0,-2.0,2.0);
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-    glLoadIdentity();
-
-    Interface();
-
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
-}*/
