@@ -72,11 +72,14 @@ namespace glimac {
             if(this->getWindow().isKeyPressed(SDLK_p)){
                 
                 this->interface->setCurrentHUD(1);
-                Mix_Music *musique = initSceneMusic(0);
-                musique = initSceneMusic(1);
+                Mix_Music *musique = initSceneMusic(1);
+                //musique = initSceneMusic(1);
                 Mix_Chunk *r2d2 = initSounds(1);
                 m_gameLoading = false;
             }
+        }
+        if(this->m_endGame){
+            Mix_Music *musique = initSceneMusic(2);
         }
         m_window.swapBuffers();
     }
@@ -174,7 +177,7 @@ namespace glimac {
     void Game::handleObject(Camera *m_camera){      
         for (int i =0; i<this->m_scene[this->getCurrentScene()]->m_objects.size(); i++){  // Parcours les objets au lieu des modèles
             if (glm::distance((this->m_scene[this->getCurrentScene()]->m_objects[i]).m_position, m_camera->getPositionXZ()) <= 40.){ 
-                if(!m_scene[m_current_scene]->m_objects[i].m_model->m_saberCaught){
+                if(!m_scene[m_current_scene]->m_objects[i].m_model->m_saberCaught && !m_scene[m_current_scene]->m_objects[i].m_model->m_portal){
                     // Affichage du message de proximité
                     this->interface->setCurrentHUD(2);
                     if(this->getWindow().isKeyPressed(SDLK_SPACE)){
@@ -207,24 +210,35 @@ namespace glimac {
                 }
             }
         }
-
-        // Condition affichage info box de début
-
-        map<string, Model>::iterator it_portal;
-        it_portal = this->m_scene[this->getCurrentScene()]->models.end();
-        if(this->m_infoBox && glm::distance(it_portal->second.getPositionXZ(), m_camera->getPositionXZ()) >= 50.){
-            this->interface->setCurrentHUD(3);
-            this->m_infoBox = false;
-        }
-
-        // Tous les sabres ont été ramassés, message pour emprunter le portail
-        if(glm::distance(it_portal->second.getPositionXZ(), m_camera->getPositionXZ()) <= 50. && this->m_scene[this->getCurrentScene()]->m_saber == this->m_scene[this->getCurrentScene()]->m_total_saber){
-            this->interface->setCurrentHUD(9);
-            if(this->getWindow().isKeyPressed(SDLK_k)){
-                this->setCurrentScene(1);
+        // Si on se trouve au niveau final
+        if(this->getCurrentScene() == 1){
+            if(m_camera->getPositionXZ().x >= 120.){
+                this->interface->setCurrentHUD(10);
+                this->m_endGame = true;
+                
             }
         }
+        // Si on se trouve dans un labyrinthe
+        else if(this->getCurrentScene() == 0){
+            // Condition affichage info box de début
+            //std::cout << "coucou ! current scene 2"<< std::endl;
+            map<string, Model>::iterator it_portal;
+            it_portal = this->m_scene[this->getCurrentScene()]->models.end();
+            if(this->m_infoBox && glm::distance(it_portal->second.getPositionXZ(), m_camera->getPositionXZ()) >= 50.){
+                this->interface->setCurrentHUD(3);
+                this->m_infoBox = false;
+            }
 
+            // Tous les sabres ont été ramassés, message pour emprunter le portail
+            if(glm::distance(it_portal->second.getPositionXZ(), m_camera->getPositionXZ()) <= 50. && this->m_scene[this->getCurrentScene()]->m_saber == this->m_scene[this->getCurrentScene()]->m_total_saber){
+                this->interface->setCurrentHUD(9);
+                Mix_Chunk *sonPortail= initSounds(2);
+                if(this->getWindow().isKeyPressed(SDLK_k)){
+                    this->interface->setCurrentHUD(7);
+                    this->setCurrentScene(1);
+                }
+            }
+        }   
     }
 }
 

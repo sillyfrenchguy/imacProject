@@ -25,7 +25,7 @@ class Interface{
         
     public :
         GLuint VAO, VBO;
-        GLuint Textures[10];
+        GLuint Textures[11];
         GLuint star;
 
         Vertex3DUV vertices[6];

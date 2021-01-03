@@ -29,6 +29,7 @@ class Game{
         bool m_gameStart = false;
         bool m_gameLoading = true;
         bool m_infoBox = true;
+        bool m_endGame = false;
         
         //static const int m_total_saber = 4;
         //Constructeur

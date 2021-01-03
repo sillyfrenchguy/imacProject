@@ -1,9 +1,8 @@
 # Fichier de description de scène
 # Scène 1
 #
-NbModels 3
+NbModels 2
 # Models nécessaires
 HANGAR ../project/template/models/scene_1/scene_1_hangar.obj 0.0 0.0 -10.0 1.0 1.0 1.0 0 0
-XWING ../project/template/models/scene_1/scene_1_xwing.obj 0.0 20.0 -100.0 1.0 1.0 1.0 0 0
-PORTAL ../project/template/models/scene_0/scene_0_portal.obj 0.0 0.0 -10.0 1.0 1.0 1.0 0 1
+XWING ../project/template/models/scene_1/scene_1_xwing.obj 1000.0 20.0 0.0 1.0 1.0 1.0 0 1
 #

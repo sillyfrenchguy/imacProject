@@ -17,6 +17,10 @@ Mix_Music* initSceneMusic(int scene){
     else if(scene == 1){
         musique = Mix_LoadMUS("../project/assets/music/death_star_suite.mp3");
     }
+    else if(scene == 2){
+        std::cout << "musique" << std::endl;
+        musique = Mix_LoadMUS("../project/assets/music/john-williams-star-wars-end-title.mp3");
+    }
     else{
         std::cout << "La scène ne contient pas de musique" << std::endl;
     }
@@ -31,7 +35,10 @@ Mix_Chunk* initSounds(int event){
         son = Mix_LoadWAV("../project/assets/music/light_saber_sound.wav");
     }
     else if(event == 1){
-        son = Mix_LoadWAV("../project/assets/music/r2d2_sound_effect(1).wav");
+        son = Mix_LoadWAV("../project/assets/music/r2d2_sound_effect.wav");
+    }
+    else if(event == 2){
+        son = Mix_LoadWAV("../project/assets/music/portal_sound_effect.wav");
     }
     else{
         std::cout << "Le son n'existe pas" << std::endl;

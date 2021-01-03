@@ -57,6 +57,7 @@ public:
         this->s_z = s_z;
         this->m_show = true;
         this->m_saber = saber;
+        this->m_portal = portal;
         this->m_saberCaught = false;   
         this->loadModel(path);
         this->m_rotation = 0.0;

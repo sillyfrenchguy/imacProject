@@ -15,7 +15,7 @@ namespace glimac {
     //:game(game), m_Position(Position), m_fPhi(fPhi), m_fTheta(fTheta){computeDirectionVectors();};
 
     Camera::Camera()
-    :m_Position((0.f,1.f,30.f)), m_fPhi(M_PI / 0.8), m_fTheta(-M_PI / 8) { computeDirectionVectors();}
+    :m_Position((0.f,20.f,30.f)), m_fPhi(M_PI / 0.8), m_fTheta(-M_PI / 8) { computeDirectionVectors();}
 
     //constructeur
     Camera::Camera(const glm::vec3 Position, const float fPhi, const float fTheta)

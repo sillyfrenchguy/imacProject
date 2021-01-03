@@ -150,6 +150,17 @@ Interface::Interface():m_currentHUD(8){
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, portail->getWidth(), portail->getHeight(), 0, GL_RGBA, GL_FLOAT, portail->getPixels());
     glGenerateMipmap(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
+
+    glGenTextures(1, &this->Textures[10]);
+    auto fin = glimac::ImageManager::loadImageAlpha("../project/assets/img/ecran_de_fin.png");
+    glBindTexture(GL_TEXTURE_2D, this->Textures[10]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fin->getWidth(), fin->getHeight(), 0, GL_RGBA, GL_FLOAT, fin->getPixels());
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Interface::drawInterface(){
