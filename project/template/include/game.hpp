@@ -2,14 +2,15 @@
 #include <iostream>
 #include <glimac/SDLWindowManager.hpp>
 #include <GL/glew.h>
+#include <SDL/SDL.h>
 #include <glimac/glm.hpp>
 #include <glimac/FilePath.hpp>
 #include "glimac/common.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 #include "scene.hpp"
-#include "Model.h"
-#include "Shader.h"
+#include "model.hpp"
+#include "shader.hpp"
 #include "music.hpp"
 #include "interface.hpp"
 #include "object.hpp"
@@ -25,13 +26,16 @@ class Game{
     public:
         Scene *m_scene[2];
         Interface *interface;
-        //int m_saber;
+
         bool m_gameStart = false;
         bool m_gameLoading = true;
         bool m_infoBox = true;
         bool m_endGame = false;
+        bool m_endMusic = true;
+
+        Mix_Music *musique = NULL;
+        Mix_Chunk *effetsSonores = NULL;
         
-        //static const int m_total_saber = 4;
         //Constructeur
         Game(char** argv);
 
@@ -43,12 +47,15 @@ class Game{
 
         void loop();
 
-        void loading();
-
-        // Fonction d'initialisation du jeu
+        // Fonction d'initialisation du jeu (préparation de la musique, 
+        // chargement de la scène, lecture de la musique correspondant à la scène)
         void init();
 
-        // Fonction de dessin
+        // Fonction pour afficher un écran de chargement : 
+        // on créé une nouvelle interface, puis on dessine l'interface par défaut
+        void loading();
+
+        // Fonction de dessin qui se trouvera dans la boucle de rendu (on dessine la scène correspondante)
         void draw();
 
         // Fonction permettant le déplacement de la camera
@@ -57,17 +64,14 @@ class Game{
         // Fonction permettant au joueur d'attraper un sabre laser s'il est situé à proximité
         void catchObject(Saber *objet);
 
-        void displayImage();
-
+        // Fonction pour incrémenter le nombre de sabres récupérés dans la scène
         int addSaber();
 
-        int getCurrentScene(){
-            return m_current_scene;
-        }
+        // On affiche l'ID de la scène courrante
+        int getCurrentScene(){return m_current_scene;}
 
-        void setCurrentScene(int current_scene){
-            m_current_scene = current_scene;
-        }
+        // On définit la scène courrante / le niveau du jeu
+        void setCurrentScene(int current_scene){m_current_scene = current_scene;}
 
         void handleObject(Camera* m_camera);
 

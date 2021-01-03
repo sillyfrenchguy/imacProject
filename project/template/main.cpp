@@ -1,15 +1,13 @@
+#include <iostream>
 #include <glimac/SDLWindowManager.hpp>
 #include <GL/glew.h>
 #include <glimac/common.hpp>
-#include <glimac/FreeflyCamera.hpp>
-#include <glimac/Sphere.hpp>
 #include <glimac/Program.hpp>
 #include <glimac/FilePath.hpp>
 #include <glimac/glm.hpp>
 #include <glimac/Image.hpp>
 #include "camera.hpp"
 #include "game.hpp"
-#include <iostream>
 
 using namespace glimac;
 
@@ -26,7 +24,6 @@ int main(int, char** argv) {
         std::cerr << "error de glew = " << glewGetErrorString(glewInitError) << std::endl;
         return EXIT_FAILURE;
     }
-
 
     std::cout << "OpenGL Version : " << glGetString(GL_VERSION) << std::endl;
     std::cout << "GLEW Version : " << glewGetString(GLEW_VERSION) << std::endl;

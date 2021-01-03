@@ -1,7 +1,7 @@
 #pragma once 
 //#include "scene.hpp" 
 #include "glimac/common.hpp" 
-#include "Model.h" 
+#include "model.hpp" 
 //#include "game.hpp" 
 
 namespace glimac{

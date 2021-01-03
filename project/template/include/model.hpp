@@ -17,7 +17,7 @@
 #include "glimac/Image.hpp"
 #include "glimac/Program.hpp"
 
-#include "Mesh.h"
+#include "mesh.hpp"
 
 using namespace std;
 

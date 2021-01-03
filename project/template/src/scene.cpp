@@ -55,6 +55,7 @@ void Scene::loadScene(string path){
             }
             
         }
+        fichier.close();
     }
     else{
         cout << "Fichier illisible" << endl;

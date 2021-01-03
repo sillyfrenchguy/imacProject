@@ -1,5 +1,4 @@
 #include "game.hpp"
-#include <unistd.h>
 
 namespace glimac {
     // Constructeur du jeu
@@ -13,46 +12,43 @@ namespace glimac {
         return m_window;
     }
 
+    // Boucle de rendu et de gestion des évènements
     void Game::loop(){
-        // Application loop:
         bool done = false;
         while(!done){
-            // Event loop:
             SDL_Event e;
             while(m_window.pollEvent(e)) {
                 switch (e.type){
                     case SDL_QUIT :
-                        done = true; //lkeave the loop after this iteration
-
-                    //case SDLK_e :
-                        //handleObject(&((this->m_scene[this->getCurrentScene()])->m_camera));
+                        done = true; // Pour quitter la boucle lorsque le joueur ferme le jeu
                 }
-                // if(e.type == SDL_QUIT) {
-                //     done = true; // Leave the loop after this iteration
-                // }
-                //if(this->getWindow().isKeyPressed(SDLK_p)){  
-                   //this->setCurrentScene(1);
-                //}
             }
-            
             moveCam(&((this->m_scene[this->getCurrentScene()])->m_camera));
             //catchObject(&((this->m_scene[this->getCurrentScene()])->m_camera));
             handleObject(&((this->m_scene[this->getCurrentScene()])->m_camera));
             draw();
+            SDL_Delay(30);
         }
+        // A la fermeture du jeu, on libère la mémoire allouée à la musique et aux bruitages
+        deleteSceneMusic(this->musique);
+        deleteSound(this->effetsSonores);
+        deleteMusicPlayer();
+        
     }
 
     // Fonction d'initialisation du jeu (préparation de la musique, chargement de la scène, lecture de la musique correspondant à la scène)
     void Game::init(){
         initMusicPlayer();
-        Mix_Music *musique = initSceneMusic(0);
+        this->musique = initSceneMusic(0);
         loading();
+
+        // Chargement des modèles des deux scènes sans les afficher/dessiner
+       // Concrétement on lit les fichiers de description de scènes puis on stocke les modèles et leurs informations
         this->m_scene[0] = new Scene("../project/template/scenes/scene_0.txt", *this);
         this->m_scene[1] = new Scene("../project/template/scenes/scene_1.txt", *this);
-        //musique = initSceneMusic(1);
-        //this->m_scene[1] = new Scene("../project/template/scenes/sceneTest2.txt");
     }
-
+    
+    // Fonction pour afficher un écran de chargement : on créé une nouvelle interface, puis on dessine l'interface par défaut
     void Game::loading(){
         this->interface = new Interface();
 		glEnable(GL_DEPTH_TEST); 
@@ -63,23 +59,38 @@ namespace glimac {
 
     // Fonction de dessin qui se trouvera dans la boucle de rendu (on dessine la scène correspondante)
     void Game::draw(){
-        glClearColor( 0.1f, 0.1f, 0.1f, 1.0f );
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        // On dessine la scène courrante du jeu
         (this->m_scene[this->getCurrentScene()])->drawScene();
+
+        // On dessine le HUD associé à la scène
         this->interface->drawInterface();
-        if(m_gameLoading){
+
+        // Si le jeu a fini de charger :
+        if(this->m_gameLoading){
+            // On affiche le menu
             this->interface->setCurrentHUD(0);
+
+            // Si on lance le jeu en cliquant sur "P"
             if(this->getWindow().isKeyPressed(SDLK_p)){
-                
+                // On affiche le HUD de description de l'histoire
                 this->interface->setCurrentHUD(1);
-                Mix_Music *musique = initSceneMusic(1);
-                //musique = initSceneMusic(1);
-                Mix_Chunk *r2d2 = initSounds(1);
-                m_gameLoading = false;
+
+                // On lance la musique associée à la scène
+                this->musique = initSceneMusic(1);
+
+                // On les bruitages de R2-D2
+                this->effetsSonores = initSounds(1);
+
+                this->m_gameLoading = false;
             }
         }
+        // Si le jeu est terminé, on lance la musique de fin
         if(this->m_endGame){
-            Mix_Music *musique = initSceneMusic(2);
+            this->musique = initSceneMusic(2);
+            this->m_endGame = false;
         }
         m_window.swapBuffers();
     }
@@ -117,6 +128,7 @@ namespace glimac {
         }    
     }
 
+    // Fonction pour incrémenter le nombre de sabres récupérés dans la scène
     int Game::addSaber(){
         this->m_scene[this->getCurrentScene()]->m_saber += 1;
         if(this->m_scene[this->getCurrentScene()]->m_saber == this->m_scene[this->getCurrentScene()]->m_total_saber){
@@ -147,13 +159,14 @@ namespace glimac {
             } 
         }
     }*/
+
     void Game::catchObject(Saber *objet){
         std::cout << "Coucou je suis ton père" << std::endl;
         objet->m_model->m_show = false;
         objet->m_model->m_saberCaught = true;
         
         // Son de récupération du sabre
-        Mix_Chunk *sonSabre = initSounds(0);
+       this->effetsSonores = initSounds(0);
         
         // on ajoute le sabre ramassé au score 
         this->addSaber();
@@ -188,7 +201,7 @@ namespace glimac {
                          m_scene[m_current_scene]->m_objects[i].m_model->m_saberCaught = true;
                         
                         // Son de récupération du sabre
-                        Mix_Chunk *sonSabre = initSounds(0);
+                        this->effetsSonores = initSounds(0);
                         
                         // on ajoute le sabre ramassé au score 
                         this->addSaber();
@@ -212,9 +225,10 @@ namespace glimac {
         }
         // Si on se trouve au niveau final
         if(this->getCurrentScene() == 1){
-            if(m_camera->getPositionXZ().x >= 120.){
+            if(m_camera->getPositionXZ().x >= 120. && this->m_endMusic){
                 this->interface->setCurrentHUD(10);
                 this->m_endGame = true;
+                this->m_endMusic = false;
                 
             }
         }
@@ -232,7 +246,8 @@ namespace glimac {
             // Tous les sabres ont été ramassés, message pour emprunter le portail
             if(glm::distance(it_portal->second.getPositionXZ(), m_camera->getPositionXZ()) <= 50. && this->m_scene[this->getCurrentScene()]->m_saber == this->m_scene[this->getCurrentScene()]->m_total_saber){
                 this->interface->setCurrentHUD(9);
-                Mix_Chunk *sonPortail= initSounds(2);
+                // On joue le son du portail
+                this->effetsSonores = initSounds(2);
                 if(this->getWindow().isKeyPressed(SDLK_k)){
                     this->interface->setCurrentHUD(7);
                     this->setCurrentScene(1);
@@ -248,7 +263,7 @@ GLint TextureFromFile(const char *path, string directory){
     string filename = string( path );
     filename = directory + '/' + filename;
     GLuint textureID;
-    glGenTextures( 1, &textureID );
+    glGenTextures(1, &textureID);
 
     std::cout << "Chargement de la texture : " << filename << std::endl;
     auto image = glimac::ImageManager::loadImage(filename.c_str( ));

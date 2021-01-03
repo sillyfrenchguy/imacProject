@@ -6,7 +6,7 @@
 #include "glimac/Program.hpp"
 #include "camera.hpp"
 #include "object.hpp"
-#include "Model.h"
+#include "model.hpp"
 #include <vector>
 
 namespace glimac{
