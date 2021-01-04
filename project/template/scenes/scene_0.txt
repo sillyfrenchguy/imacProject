@@ -3,10 +3,10 @@
 #
 NbModels 7
 # Models nécessaires
-LABYRINTHE ../project/template/models/scene_0/scene_0_corridor_xs2.obj 0.0 0.0 -10.0 1.0 1.0 1.0 0 0
+LABYRINTHE ../project/template/models/scene_0/scene_0_corridor_xs2.obj 0.0 0.0 -10.0 1.0 1.0 1.0 0 0 012
 SABRELUKE ../project/template/models/scene_0/scene_0_luke_saber.obj 0.0 20.0 -100.0 1.0 1.0 1.0 1 0
-SABREVADOR ../project/template/models/scene_0/scene_0_vader_saber.obj 0.0 20.0 100.0 1.0 1.0 1.0 1 0
-SABREOBI ../project/template/models/scene_0/scene_0_obiwan_saber.obj 0.0 20.0 -150.0 1.0 1.0 1.0 1 0
+SABREVADOR ../project/template/models/scene_0/scene_0_vader_saber.obj 926.0 20.0 674.0 1.0 1.0 1.0 1 0
+SABREOBI1 ../project/template/models/scene_0/scene_0_obiwan_saber.obj 0.0 20.0 -150.0 1.0 1.0 1.0 1 0
 SABREOBI2 ../project/template/models/scene_0/scene_0_obiwan_saber.obj 0.0 20.0 -200.0 1.0 1.0 1.0 1 0
 R2D2 ../project/template/models/scene_0/scene_0_r2.obj 0.0 0.0 0.0 1.0 1.0 1.0 0 0
 PORTAL ../project/template/models/scene_0/scene_0_portal.obj 0.0 0.0 -10.0 1.0 1.0 1.0 0 1

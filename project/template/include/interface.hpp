@@ -6,7 +6,8 @@
 #include <GL/glew.h>
 #include <iostream>
 #include "glimac/Program.hpp"
-//#include "Shader.h"
+#include <string>
+
 
 
 struct Vertex3DUV{
@@ -24,15 +25,15 @@ class Interface{
         int m_currentHUD;
         
     public :
+        static const int m_nbTexture = 12;
         GLuint VAO, VBO;
-        GLuint Textures[11];
-        GLuint star;
+        GLuint Textures[m_nbTexture];
 
         Vertex3DUV vertices[6];
-        //GLuint image;
         glimac::Program shader;
         Interface();
         void drawInterface();
-        int getCurrentHUD(){return m_currentHUD;};
+        int getCurrentHUD() const {return m_currentHUD;};
         void setCurrentHUD(int currentHUD){m_currentHUD = currentHUD;};
+        void genInterface(int i);
 };

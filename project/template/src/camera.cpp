@@ -3,7 +3,7 @@
 namespace glimac {
     // Constructeur par défaut de la caméra
     Camera::Camera()
-    :m_Position((0.f,20.f,30.f)), m_fPhi(M_PI / 0.8), m_fTheta(-M_PI / 8) { computeDirectionVectors();}
+    :m_Position((0.f,2000.f,30.f)), m_fPhi(M_PI / 0.8), m_fTheta(-M_PI / 8) { computeDirectionVectors();}
 
     // Constructeur 
     Camera::Camera(const glm::vec3 Position, const float fPhi, const float fTheta)
@@ -34,7 +34,6 @@ namespace glimac {
     }
 
     void Camera::moveFront(float t){
-        //m_Position += t*m_FrontVector;
         //La caméra ne peut pas se déplacer verticalement
         //On projette donc le front vector dans le plan, et pour que la vitesse ne soit pas affecté par l'angle Theta (angle avec l'horizon), 
         //on multiplie la norme du vecteur projeté par 1/(1 - sin(m_fTheta)**2) 
@@ -44,12 +43,12 @@ namespace glimac {
     }
 
     void Camera::rotateLeft(float m_degrees){
-        m_fPhi += glm::radians(m_degrees);
+        m_fPhi += glm::radians(m_rotationSpeed*m_degrees);
         computeDirectionVectors();
     }
 
     void Camera::rotateUp(float m_degrees){
-        m_fTheta += glm::radians(m_degrees);
+        m_fTheta += glm::radians(m_rotationSpeed*m_degrees);
         computeDirectionVectors();
     }
 }

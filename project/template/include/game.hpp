@@ -15,6 +15,9 @@
 #include "interface.hpp"
 #include "object.hpp"
 
+const int SCREEN_WIDTH = 1280;
+const int SCREEN_HEIGHT = 720;
+
 namespace glimac {
 class Game{
     private:
@@ -24,7 +27,8 @@ class Game{
         int m_current_scene;
 
     public:
-        Scene *m_scene[2];
+        static const int m_nbScene = 2;
+        Scene *m_scene[m_nbScene];
         Interface *interface;
 
         bool m_gameStart = false;
@@ -32,6 +36,7 @@ class Game{
         bool m_infoBox = true;
         bool m_endGame = false;
         bool m_endMusic = true;
+        bool m_interaction = false;
 
         Mix_Music *musique = NULL;
         Mix_Chunk *effetsSonores = NULL;
@@ -68,12 +73,12 @@ class Game{
         int addSaber();
 
         // On affiche l'ID de la scène courrante
-        int getCurrentScene(){return m_current_scene;}
+        int getCurrentScene() const {return m_current_scene;}
 
         // On définit la scène courrante / le niveau du jeu
         void setCurrentScene(int current_scene){m_current_scene = current_scene;}
 
-        void handleObject(Camera* m_camera);
+        void handleEvent(Camera* m_camera);
 
 };
 }

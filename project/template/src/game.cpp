@@ -2,7 +2,7 @@
 
 namespace glimac {
     // Constructeur du jeu
-    Game::Game(char** argv):m_scene(), m_window(1280, 720, "ImacGAME"), m_current_scene(0), m_applicationPath(argv[0]){}
+    Game::Game(char** argv):m_scene(), m_window(SCREEN_WIDTH, SCREEN_HEIGHT, "Star Wars : Portal Escape"), m_current_scene(0), m_applicationPath(argv[0]){}
 
     // Destructeur
     Game::~Game(){}
@@ -21,11 +21,22 @@ namespace glimac {
                 switch (e.type){
                     case SDL_QUIT :
                         done = true; // Pour quitter la boucle lorsque le joueur ferme le jeu
+                        break;
+
+                    case SDL_KEYUP : 
+                        m_interaction = false;
+                        break;
+
+                    // case SDL_MOUSEBUTTONDOWN : //POUR POSITIONNEMENT SABRE A DELETE
+                    //     std::cout<<((this->m_scene[this->getCurrentScene()])->m_camera).getPositionXZ() << std::endl;
                 }
+            }
+            if(this->getWindow().isKeyPressed(SDLK_SPACE) || this->getWindow().isKeyPressed(SDLK_k)){  
+               m_interaction = true;
             }
             moveCam(&((this->m_scene[this->getCurrentScene()])->m_camera));
             //catchObject(&((this->m_scene[this->getCurrentScene()])->m_camera));
-            handleObject(&((this->m_scene[this->getCurrentScene()])->m_camera));
+            handleEvent(&((this->m_scene[this->getCurrentScene()])->m_camera));
             draw();
             SDL_Delay(30);
         }
@@ -33,6 +44,7 @@ namespace glimac {
         deleteSceneMusic(this->musique);
         deleteSound(this->effetsSonores);
         deleteMusicPlayer();
+        this->~Game();
         
     }
 
@@ -103,7 +115,7 @@ namespace glimac {
         if(this->getWindow().isKeyPressed(SDLK_s)){
             
             m_camera->moveFront(-speed);
-            cout << m_camera->getViewMatrix() << endl;
+            
         }
         if(this->getWindow().isKeyPressed(SDLK_z)){
             m_camera->moveFront(speed);
@@ -120,8 +132,8 @@ namespace glimac {
 
         if(this->getWindow().isMouseButtonPressed(SDL_BUTTON_LEFT)){
             mousePosition = this->getWindow().getMousePosition();
-            float mousePositionX = mousePosition.x/1280.0f - 0.5;
-            float mousePositionY = mousePosition.y/720.0f - 0.5;
+            float mousePositionX = mousePosition.x/(float)SCREEN_WIDTH - 0.5;
+            float mousePositionY = mousePosition.y/(float)SCREEN_HEIGHT- 0.5;
 
             m_camera->rotateLeft(-3*mousePositionX);
             m_camera->rotateUp(-3*mousePositionY);
@@ -131,37 +143,12 @@ namespace glimac {
     // Fonction pour incrémenter le nombre de sabres récupérés dans la scène
     int Game::addSaber(){
         this->m_scene[this->getCurrentScene()]->m_saber += 1;
-        if(this->m_scene[this->getCurrentScene()]->m_saber == this->m_scene[this->getCurrentScene()]->m_total_saber){
-            std::cout << "Vous avez ramassé tous les sabres" << std::endl;
-        }
-        std::cout << this->m_scene[this->getCurrentScene()]->m_saber << std::endl;
         return this->m_scene[this->getCurrentScene()]->m_saber;
     }
     
     // Fonction permettant au joueur d'attraper un sabre laser s'il est situé à proximité
-    /*
-    void Game::catchObject(Camera *m_camera){ 
-        //Capture avec le clavier
-        if(this->getWindow().isKeyPressed(SDLK_e)){  
-            map<string, Model>::iterator it_models;
-            for(it_models = (this->m_scene[this->getCurrentScene()])->models.begin(); it_models != (this->m_scene[this->getCurrentScene()])->models.end(); it_models++){
-                if (it_models->second.m_saber && glm::distance(it_models->second.getPositionXZ(), m_camera->getPositionXZ()) <=10.){
-                    if(!it_models->second.m_saberCaught){
-                        //std::cout << "Vous pouvez ramasser le sabre laser ! " << std::endl; 
-                        it_models->second.m_show = false;
-                        it_models->second.m_saberCaught = true;
-                        Mix_Chunk *sonSabre = initSounds(0);
-                        // on ajoute le sabre ramassé au score
-                        
-                        this->addSaber();
-                    } 
-                }
-            } 
-        }
-    }*/
 
     void Game::catchObject(Saber *objet){
-        std::cout << "Coucou je suis ton père" << std::endl;
         objet->m_model->m_show = false;
         objet->m_model->m_saberCaught = true;
         
@@ -172,60 +159,52 @@ namespace glimac {
         this->addSaber();
         
         // Mise à jour de l'interface de compte des sabres
-        if(this->m_scene[this->getCurrentScene()]->m_saber == 1){
-            this->interface->setCurrentHUD(4);
+
+        switch (this->m_scene[this->getCurrentScene()]->m_saber){
+            case 1 :
+                this->interface->setCurrentHUD(4);
+                break;
+
+            case 2 : 
+                this->interface->setCurrentHUD(5);
+                break;
+
+            case 3 :
+                this->interface->setCurrentHUD(6);
+                break;
+
+            case 4 :
+                this->interface->setCurrentHUD(7);
+                break;
+
         }
-        if(this->m_scene[this->getCurrentScene()]->m_saber == 2){
-            this->interface->setCurrentHUD(5);
-        }
-        if(this->m_scene[this->getCurrentScene()]->m_saber == 3){
-            this->interface->setCurrentHUD(6);
-        }
-        if(this->m_scene[this->getCurrentScene()]->m_saber == 4){
-            this->interface->setCurrentHUD(7);
-        }
+
 
     }
 
-    void Game::handleObject(Camera *m_camera){      
+    void Game::handleEvent(Camera *m_camera){      
         for (int i =0; i<this->m_scene[this->getCurrentScene()]->m_objects.size(); i++){  // Parcours les objets au lieu des modèles
-            if (glm::distance((this->m_scene[this->getCurrentScene()]->m_objects[i]).m_position, m_camera->getPositionXZ()) <= 40.){ 
-                if(!m_scene[m_current_scene]->m_objects[i].m_model->m_saberCaught && !m_scene[m_current_scene]->m_objects[i].m_model->m_portal){
+            if (glm::distance((this->m_scene[this->getCurrentScene()]->m_objects[i])->m_position, m_camera->getPositionXZ()) <= 40.){ 
+                if(!m_scene[m_current_scene]->m_objects[i]->m_model->m_saberCaught){
                     // Affichage du message de proximité
-                    this->interface->setCurrentHUD(2);
-                    if(this->getWindow().isKeyPressed(SDLK_SPACE)){
-                        std::cout << "Coucou key pressed" << std::endl;
-                        m_scene[m_current_scene]->m_objects[i].interact(this); // Polymorphisme : Inutile de vérifier si c'est un sabre ou un portail    
-
-                         m_scene[m_current_scene]->m_objects[i].m_model->m_show = false;
-                         m_scene[m_current_scene]->m_objects[i].m_model->m_saberCaught = true;
-                        
-                        // Son de récupération du sabre
-                        this->effetsSonores = initSounds(0);
-                        
-                        // on ajoute le sabre ramassé au score 
-                        this->addSaber();
-                        
-                        // Mise à jour de l'interface de compte des sabres
-                        if(this->m_scene[this->getCurrentScene()]->m_saber == 1){
-                            this->interface->setCurrentHUD(4);
-                        }
-                        if(this->m_scene[this->getCurrentScene()]->m_saber == 2){
-                            this->interface->setCurrentHUD(5);
-                        }
-                        if(this->m_scene[this->getCurrentScene()]->m_saber == 3){
-                            this->interface->setCurrentHUD(6);
-                        }
-                        if(this->m_scene[this->getCurrentScene()]->m_saber == 4){
-                            this->interface->setCurrentHUD(7);
-                        }
+                    if (this->m_scene[this->getCurrentScene()]->m_objects[i]->m_model->m_saber) {
+                        this->interface->setCurrentHUD(2);
                     }
+                    else if (this->m_scene[this->getCurrentScene()]->m_saber >= this->m_scene[this->getCurrentScene()]->m_total_saber){
+                        this->interface->setCurrentHUD(9);
+                    }
+                    
+                    if(m_interaction){
+                        m_scene[m_current_scene]->m_objects[i]->interact(this); 
+                        
+                    }
+
                 }
             }
         }
         // Si on se trouve au niveau final
         if(this->getCurrentScene() == 1){
-            if(m_camera->getPositionXZ().x >= 120. && this->m_endMusic){
+            if(m_camera->getPositionXZ().x >= 800. && this->m_endMusic){
                 this->interface->setCurrentHUD(10);
                 this->m_endGame = true;
                 this->m_endMusic = false;
@@ -235,7 +214,6 @@ namespace glimac {
         // Si on se trouve dans un labyrinthe
         else if(this->getCurrentScene() == 0){
             // Condition affichage info box de début
-            //std::cout << "coucou ! current scene 2"<< std::endl;
             map<string, Model>::iterator it_portal;
             it_portal = this->m_scene[this->getCurrentScene()]->models.end();
             if(this->m_infoBox && glm::distance(it_portal->second.getPositionXZ(), m_camera->getPositionXZ()) >= 50.){
@@ -243,16 +221,6 @@ namespace glimac {
                 this->m_infoBox = false;
             }
 
-            // Tous les sabres ont été ramassés, message pour emprunter le portail
-            if(glm::distance(it_portal->second.getPositionXZ(), m_camera->getPositionXZ()) <= 50. && this->m_scene[this->getCurrentScene()]->m_saber == this->m_scene[this->getCurrentScene()]->m_total_saber){
-                this->interface->setCurrentHUD(9);
-                // On joue le son du portail
-                this->effetsSonores = initSounds(2);
-                if(this->getWindow().isKeyPressed(SDLK_k)){
-                    this->interface->setCurrentHUD(7);
-                    this->setCurrentScene(1);
-                }
-            }
         }   
     }
 }

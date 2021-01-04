@@ -11,18 +11,24 @@ void initMusicPlayer(){
 
 Mix_Music* initSceneMusic(int scene){
     Mix_Music *musique;
-    if(scene == 0){
-        musique = Mix_LoadMUS("../project/assets/music/john-williams-star-wars-main-theme.mp3");
+    try{
+
+
+        if(scene == 0){
+            musique = Mix_LoadMUS("../project/assets/music/john-williams-star-wars-main-theme.mp3");
+        }
+        else if(scene == 1){
+            musique = Mix_LoadMUS("../project/assets/music/death_star_suite.mp3");
+        }
+        else if(scene == 2){
+            musique = Mix_LoadMUS("../project/assets/music/john-williams-star-wars-end-title.mp3");
+        }
+        if (musique == NULL){
+            throw int(0);
+        }
     }
-    else if(scene == 1){
-        musique = Mix_LoadMUS("../project/assets/music/death_star_suite.mp3");
-    }
-    else if(scene == 2){
-        std::cout << "musique" << std::endl;
-        musique = Mix_LoadMUS("../project/assets/music/john-williams-star-wars-end-title.mp3");
-    }
-    else{
-        std::cout << "La scène ne contient pas de musique" << std::endl;
+    catch(int i){
+        std::cerr<< "NO MUSIC LOADED" << std::endl;
     }
 
     Mix_PlayMusic(musique, -1); //Jouer infiniment la musique

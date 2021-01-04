@@ -13,8 +13,6 @@ namespace glimac{
 class Game;
 class Scene{
     private:
-        
-        //map<string, Model> models;
 
         glm::mat4 m_ProjMatrix;
         glm::mat4 m_cameraViewMatrix;
@@ -42,7 +40,7 @@ class Scene{
         
         Program program;
         Camera m_camera;
-        std::vector<glimac::Object> m_objects; 
+        std::vector<glimac::Object*> m_objects; 
         //Constructeur
         Scene(string path, Game &game);
 
@@ -53,8 +51,8 @@ class Scene{
         void drawScene();
 
         //destructeur
-        //~Scene();
-        //glimac::Camera getCam(){return this->m_camera;} ;
+        ~Scene(){};
+
 
     
 };

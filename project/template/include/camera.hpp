@@ -11,6 +11,7 @@ class Camera{
         glm::vec3 m_Position;
         float m_fPhi;
         float m_fTheta;
+        float m_rotationSpeed = 1.6;
 
         glm::vec3 m_FrontVector;
         glm::vec3 m_LeftVector;
@@ -39,7 +40,7 @@ class Camera{
         // Pour récupérer la position de la camera sur les axes X et Z 
         glm::vec2 getPositionXZ() const;  
 };
-};
+}
 
 
 

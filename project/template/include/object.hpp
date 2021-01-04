@@ -12,9 +12,14 @@ namespace glimac{
 
 			Model* m_model; 
 			glm::vec2 m_position = {m_model->t_x, m_model->t_z}; 
-			void interact(Game* game){}; 
+			virtual void interact(Game* game){}; 
 
-			Object(Model* model) : m_model(model){};
+			Object(Model* model) : m_model(model){
+				m_position.x = m_model->t_x;
+				m_position.y = m_model->t_z;
+			};
+
+			virtual ~Object(){};
 		
 	};
 
@@ -25,7 +30,7 @@ namespace glimac{
 			Saber(Model* model) : Object(model){}; 
 			~Saber();
 
-			void interact(Game* game);
+			void interact(Game* game) override;
 
 	};
 
@@ -36,6 +41,6 @@ namespace glimac{
 			Portal(Model* model) : Object(model){}; 
 			~Portal();
 
-			void interact(Game* game);
+			void interact(Game* game) override;
 	};
 }

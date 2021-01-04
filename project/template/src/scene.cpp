@@ -27,7 +27,7 @@ void Scene::loadScene(string path){
         string word;
 
         while(getline(fichier, ligne)){
-            //cout << ligne << endl;
+   
             if(ligne.find("#")){
                 istringstream iss(ligne);
                 while(iss >> word >> nbModels){
@@ -35,19 +35,20 @@ void Scene::loadScene(string path){
                 }
                 getline(fichier, ligne);
                 getline(fichier, ligne);
-
                 for(int i =0; i<nbModels; i++){
                     istringstream iss(ligne);
                     while(iss >> modelName >> modelPath >> t_x >> t_y >> t_z >> s_x >> s_y >> s_z >> saber >> portal){
                         cout << "Nom du model : " << modelName << " Chemin : " << modelPath << " Light Saber : " << saber << endl;
-                        //this->models[modelName] = Model("../project/template/models/testOBJ.obj");
+
                         this->models[modelName] = Model(modelPath, t_x, t_y, t_z, s_x, s_y, s_z, saber, portal);
                         if (this->models[modelName].m_saber){
-                            m_objects.push_back(Saber(&this->models[modelName])); // Il faut ajouter aussi l'option ou c'est un portail (flag supplémentaire ou différent)
+                            m_objects.push_back(new Saber(&(this->models[modelName]))); // Il faut ajouter aussi l'option ou c'est un portail (flag supplémentaire ou différent)
+                            
                             this->m_total_saber += 1;
+
                         }
                         if (this->models[modelName].m_portal){
-                            m_objects.push_back(Portal(&this->models[modelName])); 
+                            m_objects.push_back(new Portal(&this->models[modelName])); 
                         }
                     }
                     getline(fichier, ligne);
@@ -73,13 +74,12 @@ void Scene::loadScene(string path){
     this->m_uLightPos_vs = glGetUniformLocation(this->program.getGLId(), "uLightPos_vs");
     this->m_uLightIntensity = glGetUniformLocation(this->program.getGLId(), "uLightIntensity");
 
-	//this->program = new glimac::Program(move(this->program));
 }
 
 //On dessine la scène dans la fenêtre
 void Scene::drawScene(){
     this->program.use();
-    this->m_ProjMatrix = glm::perspective(glm::radians(70.f), 1280.f/720.f, 0.1f, 2000.f);
+    this->m_ProjMatrix = glm::perspective(glm::radians(70.f), (float)SCREEN_WIDTH/(float)SCREEN_HEIGHT, 0.1f, 2000.f);
     this->m_cameraViewMatrix = this->m_camera.getViewMatrix();
     this->m_earthMVMatrix = this->m_camera.getViewMatrix();
     

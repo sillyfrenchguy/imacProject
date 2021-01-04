@@ -3,16 +3,28 @@
 
 namespace glimac{
 	void Saber :: interact(Game* game){
-		std::cout << "interact" << std::endl;
 		game->catchObject(this); //As game is the class dealing with displaying the scene and couting sabers, it catches the objects
-		
-		delete this; //Then the saber is destroyed (not required anymore)
+
+
 	}
 	
 	void Portal :: interact(Game* game){
-		std::cout << "interact portal" << std::endl;
 		if(game->m_scene[game->getCurrentScene()]->m_saber >= game->m_scene[game->getCurrentScene()]->m_total_saber){
-			game->setCurrentScene(game->getCurrentScene() + 1);
+			//Affiche le HUD du portail
+		    game->interface->setCurrentHUD(9);
+	        // On joue le son du portail
+	        game->effetsSonores = initSounds(2);
+
+	        game->interface->setCurrentHUD(11);
+	        try{
+	        	if (game->getCurrentScene() + 1 > game->m_nbScene){
+	        		throw int(1);
+	        	}
+	        	game->setCurrentScene(1);
+	        }
+	        catch (int i){
+	        	std::cerr<<"ERROR : NEXT SCENE ("<<i<<") IS EMPTY - CHECK TXT FILE"<<std::endl;
+	        }
 		}
 		
 	}
